@@ -1,27 +1,5 @@
 ---
 title: "Unnecessarily Complicated Research Title"
-author: "John Smith^1^, James Smith^1,2^, and Jane Smith^3^"
-institute: "1. Department and University One; 2. Department and University Two; 3. Department and University Three"
-date: "2018-11-30"
-references:
-  - id: R-base
-    author:
-    - family: "R Core Team"
-      given: ""
-    title: 'R: A Language and Environment for Statistical Computing'
-    issued:
-      year: 2018
-    URL: https://www.r-project.org
-  - id: R-pagedown
-    author:
-    - family: Xie
-      given: Yihui
-    - family: Lesur
-      given: Romain
-    title: 'Paginate the HTML Output of R Markdown with CSS for Print'
-    issued:
-      year: 2018
-    URL: https://github.com/rstudio/pagedown
 output:
   pagedown::poster_jacobs:
     css:
