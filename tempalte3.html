@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width">
+<meta property="og:title" content="A Multi-page HTML Document" />
+
+
+
+
+<meta name="author" content="Yihui Xie and Romain Lesur" />
+
+<meta name="date" content="2022-06-24" />
+
+<meta name="description" content="A Multi-page HTML Document">
+
+<script id="pandoc-meta" type="application/json">
+{"newpage_html_class":"page-break-after","date":"2022-06-24","output":{"pagedown::html_paged":{"self_contained":false,"toc":true,"css":["custom-fonts.css","poster-jacobs.css","custom.css"]}},"author":"Yihui Xie and Romain Lesur","title":"A Multi-page HTML Document"}
+</script>
+
+<title>A Multi-page HTML Document</title>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function() {
+  // Retrieve previous config object if defined
+  window.PagedConfig = window.PagedConfig || {};
+  let beforePaged = PagedConfig.before;
+  window.PagedConfig.before = async () => {
+    if (beforePaged) await beforePaged();
+    return new Promise((resolve, reject) => {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      var src = `https://mathjax.rstudio.com/latest/MathJax.js` + "?config=TeX-MML-AM_CHTML";
+      if (location.protocol !== "file:" && /^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+      script.src = src;
+      window.MathJax = {
+        AuthorInit: () => {
+          MathJax.Hub.Register.StartupHook("Begin", () => {
+            MathJax.Hub.Queue(resolve);
+          });
+        }
+      };
+      document.getElementsByTagName("head")[0].appendChild(script);
+    });
+  };
+})();
+</script>
+
+<script src="tempalte3_files/paged-0.18/js/config.js"></script>
+<script src="tempalte3_files/paged-0.18/js/paged.js"></script>
+<script src="tempalte3_files/paged-0.18/js/hooks.js"></script>
+
+
+
+
+<link rel="stylesheet" href="custom-fonts.css" type="text/css" />
+<link rel="stylesheet" href="poster-jacobs.css" type="text/css" />
+<link rel="stylesheet" href="custom.css" type="text/css" />
+
+</head>
+
+<body>
+
+<div class="running-h1-title"></div>
+
+<div class="running-h2-title"></div>
+
+
+
+<div class="front-page">
+<div id="header" class="title-page">
+<h1 class="title">A Multi-page HTML Document</h1>
+<h2 class="author">Yihui Xie and Romain Lesur</h2>
+<h2 class="date">2022-06-24</h2>
+</div>
+</div>
+
+<div class="front-matter-container">
+<div id="TOC" class="level1 toc front-matter">
+<ul>
+<li><a href="#objectives"><span class="toc-section-number">1</span> Objectives</a></li>
+<li><a href="#introduction"><span class="toc-section-number">2</span> Introduction</a></li>
+<li><a href="#materials"><span class="toc-section-number">3</span> Materials</a></li>
+<li><a href="#conclusion"><span class="toc-section-number">4</span> Conclusion</a></li>
+<li><a href="#important-result"><span class="toc-section-number">5</span> Important Result</a></li>
+<li><a href="#mathematical-section"><span class="toc-section-number">6</span> Mathematical Section</a></li>
+<li><a href="#results"><span class="toc-section-number">7</span> Results</a></li>
+<li><a href="#methods"><span class="toc-section-number">8</span> # Methods</a></li>
+<li><a href="#references"><span class="toc-section-number">9</span> References</a></li>
+<li><a href="#acknowledgements"><span class="toc-section-number">10</span> Acknowledgements</a></li>
+<li><a href="#contact-information"><span class="toc-section-number">11</span> Contact Information</a></li>
+</ul>
+</div>
+</div>
+
+<div class="main">
+<div id="objectives" class="section level1 block" number="1">
+<h1><span class="header-section-number">1</span> Objectives</h1>
+<p>Lorem ipsum dolor sit amet, consectetur, nunc tellus pulvinar tortor, commodo eleifend risus arcu sed odio:</p>
+<ul>
+<li>Mollis dignissim, magna augue tincidunt dolor, interdum vestibulum urna</li>
+<li>Sed aliquet luctus lectus, eget aliquet leo ullamcorper consequat. Vivamus eros sem, iaculis ut euismod non, sollicitudin vel orci.</li>
+<li>Nascetur ridiculus mus.<br />
+</li>
+<li>Euismod non erat. Nam ultricies pellentesque nunc, ultrices volutpat nisl ultrices a.</li>
+<li>Euismod non erat. Nam ultricies pellentesque nunc, ultrices volutpat nisl ultrices a.</li>
+<li>Euismod non erat. Nam ultricies pellentesque nunc, ultrices volutpat nisl ultrices a.</li>
+<li>Euismod non erat. Nam ultricies pellentesque nunc, ultrices volutpat nisl ultrices a.</li>
+</ul>
+</div>
+<div id="introduction" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Introduction</h1>
+<p>Lorem ipsum dolor <strong>sit amet</strong>, consectetur adipiscing elit. Donec ut volutpat elit. Sed laoreet accumsan mattis. Integer sapien tellus, auctor ac blandit eget, sollicitudin vitae lorem. Praesent dictum tempor pulvinar. Suspendisse potenti. Sed tincidunt varius ipsum, et porta nulla suscipit et. Etiam congue bibendum felis, ac dictum augue cursus a. <strong>Donec</strong> magna eros, iaculis sit amet placerat quis, laoreet id est.</p>
+<div class="figure"><span style="display:block;" id="fig:cars-plot"></span>
+<img src="tempalte3_files/figure-html/cars-plot-1.svg" alt="Figure Caption." width="100%" />
+<p class="caption">
+Figure 2.1: Figure Caption.
+</p>
+</div>
+<p>Test citations <span class="citation">@R-base</span> <span class="citation">@R-pagedown</span>. See Figure <a href="#fig:cars-plot">2.1</a>.</p>
+</div>
+<div id="materials" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Materials</h1>
+<p>The following materials were required to complete the research:</p>
+<ul>
+<li>Curabitur pellentesque dignissim</li>
+<li>Eu facilisis est tempus quis</li>
+<li>Duis porta consequat lorem</li>
+<li>Eu facilisis est tempus quis</li>
+</ul>
+<div id="one" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#one .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#one .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#one .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#one .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#one .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#one .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#one .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#one .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#one .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#one .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#one .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#one .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#one .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#one .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#one .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#one .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#one .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#one .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#one .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#one .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#one .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#one .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#one .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#one .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#one .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#one .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#one .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#one .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#one .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#one .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#one .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#one .gt_left {
+  text-align: left;
+}
+
+#one .gt_center {
+  text-align: center;
+}
+
+#one .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#one .gt_font_normal {
+  font-weight: normal;
+}
+
+#one .gt_font_bold {
+  font-weight: bold;
+}
+
+#one .gt_font_italic {
+  font-style: italic;
+}
+
+#one .gt_super {
+  font-size: 65%;
+}
+
+#one .gt_two_val_uncert {
+  display: inline-block;
+  line-height: 1em;
+  text-align: right;
+  font-size: 60%;
+  vertical-align: -0.25em;
+  margin-left: 0.1em;
+}
+
+#one .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#one .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#one .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#one .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#one .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
+}
+
+#one .gt_table {
+  background-color: skyblue;
+  font-size: 26px;
+  width: 100%;
+}
+
+#one .gt_row {
+  padding: 10px 20px;
+}
+
+#one .gt_col_heading {
+  text-align: center !important;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">name</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">size</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">size2</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">size3</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">size4</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">size5</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_left">Asia</td>
+<td class="gt_row gt_right">16988</td>
+<td class="gt_row gt_right">16988</td>
+<td class="gt_row gt_right">16988</td>
+<td class="gt_row gt_right">16988</td>
+<td class="gt_row gt_right">16988</td></tr>
+    <tr><td class="gt_row gt_left">Africa</td>
+<td class="gt_row gt_right">11506</td>
+<td class="gt_row gt_right">11506</td>
+<td class="gt_row gt_right">11506</td>
+<td class="gt_row gt_right">11506</td>
+<td class="gt_row gt_right">11506</td></tr>
+    <tr><td class="gt_row gt_left">North America</td>
+<td class="gt_row gt_right">9390</td>
+<td class="gt_row gt_right">9390</td>
+<td class="gt_row gt_right">9390</td>
+<td class="gt_row gt_right">9390</td>
+<td class="gt_row gt_right">9390</td></tr>
+    <tr><td class="gt_row gt_left">South America</td>
+<td class="gt_row gt_right">6795</td>
+<td class="gt_row gt_right">6795</td>
+<td class="gt_row gt_right">6795</td>
+<td class="gt_row gt_right">6795</td>
+<td class="gt_row gt_right">6795</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+</div>
+<div id="conclusion" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Conclusion</h1>
+<p>Nunc tempus venenatis facilisis. <strong>Curabitur suscipit</strong> consequat eros non porttitor. Sed a massa dolor, id ornare enim. Fusce quis massa dictum tortor <strong>tincidunt mattis</strong>. Donec quam est, lobortis quis pretium at, laoreet scelerisque lacus. Nam quis odio enim, in molestie libero. Vivamus cursus mi at <em>nulla elementum sollicitudin</em>.</p>
+<p>Nunc tempus venenatis facilisis. <strong>Curabitur suscipit</strong> consequat eros non porttitor. Sed a massa dolor, id ornare enim. Fusce quis massa dictum tortor <strong>tincidunt mattis</strong>. Donec quam est, lobortis quis pretium at, laoreet scelerisque lacus. Nam quis odio enim, in molestie libero. Vivamus cursus mi at <em>nulla elementum sollicitudin</em>.</p>
+</div>
+<div id="important-result" class="section level1 block" number="5">
+<h1><span class="header-section-number">5</span> Important Result</h1>
+<p>Lorem ipsum dolor <strong>sit amet</strong>, consectetur adipiscing elit. Sed commodo molestie porta. Sed ultrices scelerisque sapien ac commodo. Donec ut volutpat elit.</p>
+</div>
+<div id="mathematical-section" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> Mathematical Section</h1>
+<p>Nam quis odio enim, in molestie libero. Vivamus cursus mi at nulla elementum sollicitudin. Nam quis odio enim, in molestie libero. Vivamus cursus mi at nulla elementum sollicitudin.</p>
+<p><span class="math display" id="eq:Einstein">\[\begin{equation}
+E = mc^{2}
+\tag{6.1}
+\end{equation}\]</span></p>
+<p>Nam quis odio enim, in molestie libero. Vivamus cursus mi at nulla elementum sollicitudin. Nam quis odio enim, in molestie libero. Vivamus cursus mi at nulla elementum sollicitudin.</p>
+<p><span class="math display" id="eq:refname">\[\begin{equation}
+\cos^3 \theta =\frac{1}{4}\cos\theta+\frac{3}{4}\cos 3\theta
+\tag{6.2}
+\end{equation}\]</span></p>
+<p>Nam quis odio enim, in molestie libero. Vivamus cursus mi at nulla elementum sollicitudin. Nam quis odio enim, in molestie libero. Vivamus cursus mi at nulla elementum sollicitudin.</p>
+<p><span class="math display">\[\begin{equation}
+\kappa =\frac{\xi}{E_{\mathrm{max}}}
+\end{equation}\]</span></p>
+<p>Nam quis odio enim, in molestie libero. Vivamus cursus mi at nulla elementum sollicitudin. Nam quis odio enim, in molestie libero. Vivamus cursus mi at nulla elementum sollicitudin.</p>
+</div>
+<div id="results" class="section level1" number="7">
+<h1><span class="header-section-number">7</span> Results</h1>
+<div class="figure-example">
+<p>Placeholder<br />
+~~~~~~~<br />
+Image</p>
+<p>Figure 2: Figure caption.</p>
+</div>
+<p>Nunc tempus venenatis facilisis. Curabitur suscipit consequat eros non porttitor. Sed a massa dolor, id ornare enim:</p>
+<table>
+<caption><span id="tab:unnamed-chunk-2">Table 7.1: </span>Table caption.</caption>
+<thead>
+<tr class="header">
+<th align="right">Sepal.Length</th>
+<th align="right">Sepal.Width</th>
+<th align="right">Petal.Length</th>
+<th align="right">Petal.Width</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">5.1</td>
+<td align="right">3.5</td>
+<td align="right">1.4</td>
+<td align="right">0.2</td>
+</tr>
+<tr class="even">
+<td align="right">4.9</td>
+<td align="right">3.0</td>
+<td align="right">1.4</td>
+<td align="right">0.2</td>
+</tr>
+<tr class="odd">
+<td align="right">4.7</td>
+<td align="right">3.2</td>
+<td align="right">1.3</td>
+<td align="right">0.2</td>
+</tr>
+<tr class="even">
+<td align="right">4.6</td>
+<td align="right">3.1</td>
+<td align="right">1.5</td>
+<td align="right">0.2</td>
+</tr>
+<tr class="odd">
+<td align="right">5.0</td>
+<td align="right">3.6</td>
+<td align="right">1.4</td>
+<td align="right">0.2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="methods" class="section level1" number="8">
+<h1><span class="header-section-number">8</span> # Methods</h1>
+<p>Lorem ipsum dolor <strong>sit amet</strong>, consectetur adipiscing elit. Sed laoreet accumsan mattis. Integer sapien tellus, auctor ac blandit eget, sollicitudin vitae lorem. Praesent dictum tempor pulvinar. Suspendisse potenti. Sed tincidunt varius ipsum, et porta nulla suscipit et. Etiam congue bibendum felis, ac dictum augue cursus a. <strong>Donec</strong> magna eros, iaculis sit amet placerat quis, laoreet id est. In ut orci purus, interdum ornare nibh. Pellentesque pulvinar, nibh ac malesuada accumsan, urna nunc convallis tortor, ac vehicula nulla tellus eget nulla. Nullam lectus tortor, <em>consequat tempor hendrerit</em> quis, vestibulum in diam. Maecenas sed diam augue.</p>
+</div>
+<div id="references" class="section level1" number="9">
+<h1><span class="header-section-number">9</span> References</h1>
+<div id="refs">
+
+</div>
+</div>
+<div id="acknowledgements" class="section level1" number="10" data-color="red">
+<h1><span class="header-section-number">10</span> Acknowledgements</h1>
+<p>Nam mollis tristique neque eu luctus. Suspendisse rutrum congue nisi sed convallis. Aenean id neque dolor. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+<div class="logo-example">
+<p>Placeholder Logo</p>
+<p>Placeholder Logo</p>
+<p>Placeholder Logo</p>
+</div>
+<p>Nam mollis tristique neque eu luctus. Suspendisse rutrum congue nisi sed convallis. Aenean id neque dolor. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+</div>
+<div id="contact-information" class="section level1 block" number="11" data-color="black" data-border-color="orange" data-background-color="white">
+<h1><span class="header-section-number">11</span> Contact Information</h1>
+<ul>
+<li>Web: <a href="https://www.example.org/smithlab" class="uri">https://www.example.org/smithlab</a></li>
+<li>Email: <a href="mailto:john@example.org" class="email">john@example.org</a></li>
+<li>Phone: +1 (000) 111 1111</li>
+</ul>
+</div>
+</div>
+
+
+
+<script>
+// when the page is about to reload via servr, remember the scroll position
+document.addEventListener('servr:reload', function(e) {
+  sessionStorage.setItem('pagedown-scroll', window.scrollY);
+});
+</script>
+</body>
+</html>
