@@ -1,13 +1,13 @@
 @page {
-  size: 29.7cm 21cm;
+  size: 21cm 29.7cm;
   margin: 0;
 }
 * {
   box-sizing: border-box;
 }
 html {
-  width: 29.7cm;
-  height: 21cm;
+  width: 21cm;
+  height: 29.7cm;
 }
 body {
   margin: 0;
@@ -22,17 +22,17 @@ body {
 body {
   display: grid;
   grid-template-areas:
-    'S1 S1 S1 S1'
-    'S2 S4 S5 S9'
-    'S2 S4 S5 S9'
-    'S2 S4 S5 S9'
-    'S2 S6 S6 S10'
-    'S3 S7 S8 S11'
-    'S3 S7 S8 S11'
-    'S3 S7 S8 S11'
-    'S3 S7 S8 S12'
-    'S3 S7 S8 S12';
-  grid-template-columns: repeat(4, 1fr);
+    'S1 S1 S1 S1 S1 S1 S1 S1 S1'
+    'S1 S1 S1 S1 S1 S1 S1 S1 S1'
+    'S1 S1 S1 S1 S1 S1 S1 S1 S1'
+    'S1 S1 S1 S1 S1 S1 S1 S1 S1'
+    'S1 S1 S1 S1 S1 S1 S1 S1 S1'
+    'S1 S1 S1 S1 S1 S1 S1 S1 S1'
+    'S2 S2 S3 S3 S3 S3 S3 S3 S3'
+    'S4 S4 S4 S4 S4 S4 S4 S4 S4'
+    'S4 S4 S4 S4 S4 S4 S4 S4 S4'
+    'S5 S6 S6 S6 S6 S6 S6 S6 S6';
+  grid-template-columns: repeat(9, 1fr);
   grid-template-rows: repeat(10, 1fr);
 }
 
@@ -55,7 +55,7 @@ h1, .poster-title, .figure {
 
 .poster-title h1 {
   font-family: "Gill Sans", Verdana, sans-serif;
-  font-size: 3em;
+  font-size: .2em;
   color: darkblue;
 }
 
@@ -67,7 +67,7 @@ h1 {
   color: limegreen;
   margin: 0;
   padding: .5em;
-  font-size: 1.5em;
+  font-size: 0em;
 }
 
 .block2 {
@@ -103,8 +103,8 @@ caption { margin-bottom: 10px; }
 a { text-decoration: none; }
 
 h1 hr {
-  border: 6px solid gray;
-  clip-path: ellipse(50% 3px at center);
+  border: 0px solid gray;
+  clip-path: ellipse(50% 0px at center);
   margin: 0;
 }
 
