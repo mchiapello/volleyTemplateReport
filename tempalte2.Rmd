@@ -101,30 +101,39 @@ x$meta$result %>%
     mutate(Set = row_number()) %>% 
     unite("Parziali", score_intermediate1:score_intermediate3, sep = " / ") %>% 
     select(Set, Durata = duration, Parziali, Punteggio = score) %>% 
-    gt(id = "four") %>%
+    gt(id = "third") %>%
+    cols_align(
+    align = "center") %>% 
     tab_options(table.width = px(300)) %>% 
     opt_css(
     css = "
-    #four .gt_header {
-      padding: 2px 3px;
-      font-size: 10px;
-      color: lightgreen;
-    }
-    #four .gt_row {
+    #third .gt_col_heading {
       padding: 2px 3px;
       font-size: 10px;
     }
-    #four .gt_col_heading {
+    #third .gt_row {
+      padding: 2px 3px;
+      font-size: 7px;
+    }
+    #third .gt_col_heading {
       text-align: center !important;
     }
     ")
 
-````
+```
 
 
 S4
 ================================================================================
+```{r main}
+noi <- home_team(x)
 
+t1 <- x$meta$players_h %>% 
+    select(number, name, starting_position_set1:starting_position_set5) %>% 
+    select(where(~sum(!is.na(.x)) > 0)) %>% 
+    rename_with(~str_remove(.x, "starting_position_"))
+    
+````
 
 
 
