@@ -10,7 +10,7 @@ output:
 
 ```{r}
 library(datavolley)
-library(tidyverse)
+suppressPackageStartupMessages(library(tidyverse))
 library(gt)
 library(gtExtras)
 
@@ -23,7 +23,7 @@ knitr::opts_chunk$set(echo = FALSE,
 
 
 
-PIPPO2
+S1
 ================================================================================
 
 ```{r risultato}
@@ -34,18 +34,18 @@ x$meta$teams %>%
     gt(id = "one") %>%
     tab_header(title = "Risultato finale") %>% 
     fmt_markdown(columns = everything()) %>%
-    tab_options(table.width = px(150),
+    tab_options(table.width = px(90),
                 column_labels.hidden = TRUE) %>% 
     opt_css(
     css = "
     #one .gt_header {
       padding: 2px 3px;
-      font-size: 10px;
+      font-size: 7px;
       color: lightgreen;
     }
     #one .gt_row {
       padding: 2px 3px;
-      font-size: 10px;
+      font-size: 7px;
     }
     #one .gt_col_heading {
       text-align: center !important;
@@ -55,29 +55,77 @@ x$meta$teams %>%
 ```
 
 
-PIPPO3
+S2
 ================================================================================
 
-::: {.logo-example}
-Placeholder Logo
-:::
+```{r meta1}
+data <- as.character(x$meta$match$date)
+stag <- x$meta$match$season
+lea <- x$meta$match$league
+pha <- x$meta$match$phase
+num <- x$meta$match$match_number
+
+meta1 <- tibble(name = c("Data", "Stagione", "Campionato", "Fase", "Partita"),
+                values = c(data, stag, lea, pha, num))
+
+
+meta1 %>% 
+    gt(id = "two") %>%
+    tab_options(#table.width = px(150),
+                column_labels.hidden = TRUE) %>% 
+    opt_css(
+    css = "
+    #two .gt_header {
+      padding: 2px 3px;
+      font-size: 7;
+      color: lightgreen;
+    }
+    #two .gt_row {
+      padding: 2px 3px;
+      font-size: 7px;
+    }
+    #two .gt_col_heading {
+      text-align: center !important;
+    }
+    ")
+
+```
 
 
 
-PIPPO4
+S3
 ================================================================================
 
-::: {.logo-example}
-Placeholder Logo
-:::
+```{r meta3}
+x$meta$result %>%
+    mutate(Set = row_number()) %>% 
+    unite("Parziali", score_intermediate1:score_intermediate3, sep = " / ") %>% 
+    select(Set, Durata = duration, Parziali, Punteggio = score) %>% 
+    gt(id = "four") %>%
+    tab_options(table.width = px(300)) %>% 
+    opt_css(
+    css = "
+    #four .gt_header {
+      padding: 2px 3px;
+      font-size: 10px;
+      color: lightgreen;
+    }
+    #four .gt_row {
+      padding: 2px 3px;
+      font-size: 10px;
+    }
+    #four .gt_col_heading {
+      text-align: center !important;
+    }
+    ")
+
+````
 
 
-PIPPO5
+S4
 ================================================================================
 
-::: {.logo-example}
-Placeholder Logo
-:::
+
 
 
 PIPPO6
