@@ -27,39 +27,30 @@ PIPPO2
 ================================================================================
 
 ```{r risultato}
+x <- dv_read("example.dvw")
 
-
-mtcars %>%
-  head() %>%
-  dplyr::select(cyl, mpg) %>%
-  dplyr::mutate(
-    mpg_pct_max = round(mpg / max(mpg) * 100, digits = 2),
-    mpg_scaled = mpg / max(mpg) * 100
-  ) %>%
-  dplyr::mutate(mpg_unscaled = mpg) %>%
-  gt(id = "one") %>%
-  gt_plt_bar_pct(column = mpg_scaled, scaled = TRUE) %>%
-  gt_plt_bar_pct(column = mpg_unscaled, scaled = FALSE, fill = "blue", background = "lightblue") %>%
-  cols_align("right", contains("scale")) %>%
-  cols_width(
-    4 ~ px(5),
-    5 ~ px(5)
-  ) %>% 
+x$meta$teams %>%
+    select(team, sets_won) %>% 
+    gt(id = "one") %>%
+    tab_header(title = "Risultato finale") %>% 
+    fmt_markdown(columns = everything()) %>%
+    tab_options(table.width = px(150),
+                column_labels.hidden = TRUE) %>% 
     opt_css(
     css = "
-    #one .gt_col_heading {
+    #one .gt_header {
       padding: 2px 3px;
-      font-size: 50px;
+      font-size: 10px;
+      color: lightgreen;
     }
     #one .gt_row {
       padding: 2px 3px;
-      font-size: 5px;
+      font-size: 10px;
     }
     #one .gt_col_heading {
       text-align: center !important;
     }
-    "
-  )
+    ")
 
 ```
 

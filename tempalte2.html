@@ -92,22 +92,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 -->
 
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(datavolley)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
-<pre><code>## ── Attaching packages ───────────────────────────────────────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
-<pre><code>## ✔ tibble  3.1.7     ✔ dplyr   1.0.9
-## ✔ tidyr   1.2.0     ✔ stringr 1.4.0
-## ✔ readr   2.1.2     ✔ forcats 0.5.1
-## ✔ purrr   0.3.4</code></pre>
-<pre><code>## ── Conflicts ──────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gtExtras)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">echo =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">warning =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">error =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">message =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gtExtras)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">echo =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">warning =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                      <span class="at">error =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                      <span class="at">message =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <div id="pippo2" class="section level1">
 <h1>PIPPO2</h1>
 <div id="one" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
@@ -125,7 +117,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   font-weight: normal;
   font-style: normal;
   background-color: #FFFFFF;
-  width: auto;
+  width: 150px;
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #A8A8A8;
@@ -522,69 +514,38 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   vertical-align: -0.05em;
 }
 
-#one .gt_col_heading {
+#one .gt_header {
   padding: 2px 3px;
-  font-size: 50px;
+  font-size: 10px;
+  color: lightgreen;
 }
 
 #one .gt_row {
   padding: 2px 3px;
-  font-size: 5px;
+  font-size: 10px;
 }
 
 #one .gt_col_heading {
   text-align: center !important;
 }
 </style>
-<table class="gt_table" style="table-layout: fixed;">
-  <colgroup>
-    <col/>
-    <col/>
-    <col/>
-    <col style="width:5px;"/>
-    <col style="width:5px;"/>
-  </colgroup>
-  
-  <thead class="gt_col_headings">
+<table class="gt_table">
+  <thead class="gt_header">
     <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">cyl</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">mpg</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">mpg_pct_max</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">mpg_scaled</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">mpg_unscaled</th>
+      <th colspan="2" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>Risultato finale</th>
     </tr>
+    
   </thead>
+  
   <tbody class="gt_table_body">
-    <tr><td class="gt_row gt_right">6</td>
-<td class="gt_row gt_right">21.0</td>
-<td class="gt_row gt_right">92.11</td>
-<td class="gt_row gt_right"><div style='flex-grow:1;margin-left:8px;background:#e1e1e1;'><div style='background:purple;width:92.1052631578947%;height:16px;'></div></div></td>
-<td class="gt_row gt_right"><div style='flex-grow:1;margin-left:8px;background:lightblue;'><div style='background:blue;width:92.1052631578947%;height:16px;'></div></div></td></tr>
-    <tr><td class="gt_row gt_right">6</td>
-<td class="gt_row gt_right">21.0</td>
-<td class="gt_row gt_right">92.11</td>
-<td class="gt_row gt_right"><div style='flex-grow:1;margin-left:8px;background:#e1e1e1;'><div style='background:purple;width:92.1052631578947%;height:16px;'></div></div></td>
-<td class="gt_row gt_right"><div style='flex-grow:1;margin-left:8px;background:lightblue;'><div style='background:blue;width:92.1052631578947%;height:16px;'></div></div></td></tr>
-    <tr><td class="gt_row gt_right">4</td>
-<td class="gt_row gt_right">22.8</td>
-<td class="gt_row gt_right">100.00</td>
-<td class="gt_row gt_right"><div style='flex-grow:1;margin-left:8px;background:#e1e1e1;'><div style='background:purple;width:100%;height:16px;'></div></div></td>
-<td class="gt_row gt_right"><div style='flex-grow:1;margin-left:8px;background:lightblue;'><div style='background:blue;width:100%;height:16px;'></div></div></td></tr>
-    <tr><td class="gt_row gt_right">6</td>
-<td class="gt_row gt_right">21.4</td>
-<td class="gt_row gt_right">93.86</td>
-<td class="gt_row gt_right"><div style='flex-grow:1;margin-left:8px;background:#e1e1e1;'><div style='background:purple;width:93.859649122807%;height:16px;'></div></div></td>
-<td class="gt_row gt_right"><div style='flex-grow:1;margin-left:8px;background:lightblue;'><div style='background:blue;width:93.859649122807%;height:16px;'></div></div></td></tr>
-    <tr><td class="gt_row gt_right">8</td>
-<td class="gt_row gt_right">18.7</td>
-<td class="gt_row gt_right">82.02</td>
-<td class="gt_row gt_right"><div style='flex-grow:1;margin-left:8px;background:#e1e1e1;'><div style='background:purple;width:82.0175438596491%;height:16px;'></div></div></td>
-<td class="gt_row gt_right"><div style='flex-grow:1;margin-left:8px;background:lightblue;'><div style='background:blue;width:82.0175438596491%;height:16px;'></div></div></td></tr>
-    <tr><td class="gt_row gt_right">6</td>
-<td class="gt_row gt_right">18.1</td>
-<td class="gt_row gt_right">79.39</td>
-<td class="gt_row gt_right"><div style='flex-grow:1;margin-left:8px;background:#e1e1e1;'><div style='background:purple;width:79.3859649122807%;height:16px;'></div></div></td>
-<td class="gt_row gt_right"><div style='flex-grow:1;margin-left:8px;background:lightblue;'><div style='background:blue;width:79.3859649122807%;height:16px;'></div></div></td></tr>
+    <tr><td class="gt_row gt_left"><div class='gt_from_md'><p>Braslovče</p>
+</div></td>
+<td class="gt_row gt_right"><div class='gt_from_md'><p>3</p>
+</div></td></tr>
+    <tr><td class="gt_row gt_left"><div class='gt_from_md'><p>Nova KBM Branik</p>
+</div></td>
+<td class="gt_row gt_right"><div class='gt_from_md'><p>0</p>
+</div></td></tr>
   </tbody>
   
   
