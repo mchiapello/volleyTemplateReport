@@ -22,16 +22,14 @@ body {
 body {
   display: grid;
   grid-template-areas:
-    'S1 S1 S1 S1 S1 S1 S1 S1 S1'
-    'S1 S1 S1 S1 S1 S1 S1 S1 S1'
-    'S1 S1 S1 S1 S1 S1 S1 S1 S1'
-    'S1 S1 S1 S1 S1 S1 S1 S1 S1'
-    'S1 S1 S1 S1 S1 S1 S1 S1 S1'
-    'S1 S1 S1 S1 S1 S1 S1 S1 S1'
-    'S2 S2 S3 S3 S3 S3 S3 S3 S3'
-    'S4 S4 S4 S4 S4 S4 S4 S4 S4'
-    'S4 S4 S4 S4 S4 S4 S4 S4 S4'
-    'S5 S6 S6 S6 S6 S6 S6 S6 S6';
+    'S1 S1 S1 S2 S2 S3 S3 S4 S4 S4'
+    'S1 S1 S1 S2 S2 S3 S3 S4 S4 S4'
+    'S5 S5 S5 S5 S5 S5 S5 S5 S5 S5'
+    'S5 S5 S5 S5 S5 S5 S5 S5 S5 S5'
+    'S5 S5 S5 S5 S5 S5 S5 S5 S5 S5'
+    'S5 S5 S5 S5 S5 S5 S5 S5 S5 S5'
+    'S5 S5 S5 S5 S5 S5 S5 S5 S5 S5'
+    'S5 S5 S5 S5 S5 S5 S5 S5 S5 S5';
   grid-template-columns: repeat(9, 1fr);
   grid-template-rows: repeat(10, 1fr);
 }

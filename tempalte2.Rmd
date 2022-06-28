@@ -8,12 +8,60 @@ output:
     pandoc_args: --mathjax
 ---
 
+```{r}
+library(datavolley)
+library(tidyverse)
+library(gt)
+library(gtExtras)
+
+knitr::opts_chunk$set(echo = FALSE,
+                      warning = FALSE,
+                      error = FALSE,
+                      message = FALSE)
+```
+
+
+
+
 PIPPO2
 ================================================================================
 
-::: {.logo-example}
-Placeholder Logo
-:::
+```{r risultato}
+
+
+mtcars %>%
+  head() %>%
+  dplyr::select(cyl, mpg) %>%
+  dplyr::mutate(
+    mpg_pct_max = round(mpg / max(mpg) * 100, digits = 2),
+    mpg_scaled = mpg / max(mpg) * 100
+  ) %>%
+  dplyr::mutate(mpg_unscaled = mpg) %>%
+  gt(id = "one") %>%
+  gt_plt_bar_pct(column = mpg_scaled, scaled = TRUE) %>%
+  gt_plt_bar_pct(column = mpg_unscaled, scaled = FALSE, fill = "blue", background = "lightblue") %>%
+  cols_align("right", contains("scale")) %>%
+  cols_width(
+    4 ~ px(5),
+    5 ~ px(5)
+  ) %>% 
+    opt_css(
+    css = "
+    #one .gt_col_heading {
+      padding: 2px 3px;
+      font-size: 50px;
+    }
+    #one .gt_row {
+      padding: 2px 3px;
+      font-size: 5px;
+    }
+    #one .gt_col_heading {
+      text-align: center !important;
+    }
+    "
+  )
+
+```
 
 
 PIPPO3
