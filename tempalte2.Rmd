@@ -8,7 +8,7 @@ output:
     pandoc_args: --mathjax
 ---
 
-```{r}
+```{r include=FALSE}
 library(datavolley)
 suppressPackageStartupMessages(library(tidyverse))
 library(gt)
@@ -18,6 +18,8 @@ knitr::opts_chunk$set(echo = FALSE,
                       warning = FALSE,
                       error = FALSE,
                       message = FALSE)
+
+source("utils.R")
 ```
 
 
@@ -132,7 +134,112 @@ t1 <- x$meta$players_h %>%
     select(number, name, starting_position_set1:starting_position_set5) %>% 
     select(where(~sum(!is.na(.x)) > 0)) %>% 
     rename_with(~str_remove(.x, "starting_position_"))
+
+##################
+# Functions
+vr_points <- function(x, by = "player", team_select = "Braslovče") {
+    as_for_datavolley <- TRUE
+    by <- match.arg(tolower(by), c("player", "set"))
+    if (by == "player") {
+        vr_pts <- plays(x) %>% 
+            dplyr::filter(.data$team %in% team_select, .data$player_id != "unknown player") %>% 
+            group_by(.data$player_id) %>%
+            dplyr::summarize(Tot = sum(.data$evaluation_code == "#" & .data$skill %in% c("Serve", "Attack", "Block")),
+                             BP = sum(.data$evaluation_code == "#" & .data$skill %in% c("Serve", "Attack", "Block") & .data$serving_team == team_select),
+                             Nerr = sum((.data$evaluation %eq% "Error" & .data$skill %in% c("Serve", "Reception", "Attack", if (!as_for_datavolley) "Set", if (!as_for_datavolley) "Freeball")) | (!as_for_datavolley & .data$evaluation %eq% "Invasion" & .data$skill %eq% "Block") | (.data$evaluation %eq% "Blocked" & .data$skill %eq% "Attack")),
+                             'W-L' = .data$Tot - .data$Nerr)
+        vr_pts <- vr_pts %>%
+            bind_rows(
+                plays(x) %>% dplyr::filter(.data$team %in% team_select, .data$player_id != "unknown player") %>%
+                mutate(player_id = "Team total") %>% 
+                group_by(.data$player_id) %>%
+                dplyr::summarize(Tot = sum(.data$evaluation_code == "#" & .data$skill %in% c("Serve", "Attack", "Block")),
+                                 BP = sum(.data$evaluation_code == "#" & .data$skill %in% c("Serve", "Attack", "Block") & .data$serving_team == team_select),
+                                 Nerr = sum((.data$evaluation %eq% "Error" & .data$skill %in% c("Serve", "Reception", "Attack", if (!as_for_datavolley) "Set", if (!as_for_datavolley) "Freeball")) | (!as_for_datavolley & .data$evaluation %eq% "Invasion" & .data$skill %eq% "Block") | (.data$evaluation %eq% "Blocked" & .data$skill %eq% "Attack")),
+                                 'W-L' = .data$Tot - .data$Nerr))
+    } else if (by == "set") {
+        y <- plays(x)
+        y$team_points <- if (team_select %eq% datavolley::home_team(y)) y$home_team_score else if (team_select %eq% datavolley::visiting_team(y)) y$visiting_team_score else NA_integer_
+        vr_pts <- y %>% group_by(.data$set_number) %>%
+            dplyr::summarize(Ser = sum(.data$evaluation_code == "#" & .data$skill == "Serve" & .data$team %in% team_select, na.rm = TRUE),
+                             Atk = sum(.data$evaluation_code == "#" & .data$skill == "Attack" & .data$team %in% team_select, na.rm = TRUE),
+                             Blo = sum(.data$evaluation_code == "#" & .data$skill == "Block" & .data$team %in% team_select, na.rm = TRUE),
+                             ## "Op.Er" = sum(.data$point & .data$team %in% team_select, na.rm = TRUE) - .data$Ser - .data$Atk - .data$Blo)
+                             "Op.Er" = max(.data$team_points, na.rm = TRUE) - .data$Ser - .data$Atk - .data$Blo)
+    }
+    vr_pts
+}
     
+vr_serve <- function(x, team, by = "player", team_select = "Braslovče"){
+    y <- plays(x)
+    if (by == "player") {
+        y %>% dplyr::filter(.data$team %in% team_select, .data$player_id != "unknown player", 
+                            .data$skill == "Serve") %>% 
+            group_by(.data$player_id) %>%
+            dplyr::summarize(Tot = n(),
+                      Err = sum(.data$evaluation %eq% "Error"),
+                      Pts = sum(.data$evaluation %eq% "Ace"),
+                      Neg = sum(.data$evaluation %eq% "Negative, opponent free attack"),
+                      Pos = sum(.data$evaluation %eq% "Positive, no attack") + 
+                              sum(.data$evaluation %eq% "Positive, opponent some attack") + 
+                               sum(.data$evaluation %eq% "OK, no first tempo possible")) %>%
+            bind_rows(
+                y %>% dplyr::filter(.data$team %in% team_select, .data$player_id != "unknown player", .data$skill == "Serve") %>% 
+                    mutate(player_id = "Team total")%>% group_by(.data$player_id) %>%
+                    dplyr::summarize(Tot = n(),
+                              Err = sum(.data$evaluation %eq% "Error"),
+                              Pts = sum(.data$evaluation %eq% "Ace"),
+                              Neg = sum(.data$evaluation %eq% "Negative, opponent free attack"),
+                              Pos = sum(.data$evaluation %eq% "Positive, no attack") + 
+                                      sum(.data$evaluation %eq% "Positive, opponent some attack") + 
+                                       sum(.data$evaluation %eq% "OK, no first tempo possible"))
+            )
+    } else if(by == "set") {
+        y %>% dplyr::filter(.data$team %in% team_select, .data$player_id != "unknown player", 
+                            .data$skill == "Serve") %>% 
+            group_by(.data$set_number) %>%
+            dplyr::summarize(Tot = n(),
+                      Err = sum(.data$evaluation %eq% "Error"),
+                      Pts = sum(.data$evaluation %eq% "Ace"),
+                              Neg = sum(.data$evaluation %eq% "Negative, opponent free attack"),
+                              Pos = sum(.data$evaluation %eq% "Positive, no attack") + 
+                                      sum(.data$evaluation %eq% "Positive, opponent some attack") + 
+                                       sum(.data$evaluation %eq% "OK, no first tempo possible"))
+    }
+}
+
+
+
+
+
+#####################
+# POINTS
+t2 <- vr_points(x, by = "set", team_select = "Braslovče")
+t3 <- vr_points(x, by = "player", team_select = "Braslovče")
+
+# SERVE
+t4 <- vr_serve(x, by = "set", team_select = "Braslovče")
+t5 <- vr_serve(x, by = "player", team_select = "Braslovče")
+
+t1 %>%
+    gt(id = "four") %>%
+    cols_align(
+    align = "center") %>% 
+    tab_options(table.width = px(300)) %>% 
+    opt_css(
+    css = "
+    #four .gt_col_heading {
+      padding: 2px 3px;
+      font-size: 10px;
+    }
+    #four .gt_row {
+      padding: 2px 3px;
+      font-size: 7px;
+    }
+    #four .gt_col_heading {
+      text-align: center !important;
+    }
+    ")
 ````
 
 
@@ -140,6 +247,4 @@ t1 <- x$meta$players_h %>%
 PIPPO6
 ================================================================================
 
-::: {.logo-example}
-Placeholder Logo
-:::
+
