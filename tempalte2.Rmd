@@ -137,6 +137,7 @@ t1 <- x$meta$players_h %>%
 
 ##################
 # Functions
+# Points
 vr_points <- function(x, by = "player", team_select = "Braslovče") {
     as_for_datavolley <- TRUE
     by <- match.arg(tolower(by), c("player", "set"))
@@ -169,7 +170,7 @@ vr_points <- function(x, by = "player", team_select = "Braslovče") {
     }
     vr_pts
 }
-    
+# Serve
 vr_serve <- function(x, team, by = "player", team_select = "Braslovče"){
     y <- plays(x)
     if (by == "player") {
@@ -207,7 +208,130 @@ vr_serve <- function(x, team, by = "player", team_select = "Braslovče"){
                                        sum(.data$evaluation %eq% "OK, no first tempo possible"))
     }
 }
+# Reception
+vr_reception <- function(x, team, by = "player", file_type = "indoor", team_select = "Braslovče"){
+    y <- plays(x)
+    if (by == "player"){
+        y %>% 
+            dplyr::filter(.data$team %in% team_select, .data$player_id != "unknown player", 
+                          .data$skill == "Reception") %>% 
+            group_by(.data$player_id) %>%
+            dplyr::summarize(Tot = n(),
+                             Err = sum(.data$evaluation %eq% "Error"),
+                             'Neg%' = paste0(round(mean(.data$evaluation_code %in% c("-", "!", "/")), 2)*100, "%"),
+                             'Pos%' = paste0(round(mean(.data$evaluation_code %in% c("+", "#", "#+")), 2)*100, "%"),
+                             '(Exc%)' = paste0("(", round(mean(.data$evaluation_code %in% c("#")), 2)*100, "%)")) %>%
+            bind_rows(
+                y %>% 
+                    dplyr::filter(.data$team %in% team_select, .data$player_id != "unknown player", 
+                                  .data$skill == "Reception") %>% 
+                mutate(player_id = "Team total") %>%
+                group_by(.data$player_id) %>%
+                dplyr::summarize(Tot = n(),
+                                 Err = sum(.data$evaluation %eq% "Error"),
+                                 'Neg%' = paste0(round(mean(.data$evaluation_code %in% c("!", "/")), 2)*100, "%"),
 
+                                 'Pos%' = paste0(round(mean(.data$evaluation_code %in% c("+", "#", "#+")), 2)*100, "%"),
+                                 '(Exc%)' = paste0("(", round(mean(.data$evaluation_code %in% c("#")), 2)*100, "%)")))
+    } else if (by == "set") {
+        y %>% dplyr::filter(.data$team %in% team_select, .data$player_id != "unknown player", .data$skill == "Reception") %>% group_by(.data$set_number) %>%
+            dplyr::summarize(Tot = n(),
+                             Err = sum(.data$evaluation %eq% "Error"),
+                             'Pos%' = paste0(round(mean(.data$evaluation_code %in% c("+", "#", "#+")), 2)*100, "%"),
+                             'Neg%' = paste0(round(mean(.data$evaluation_code %in% c("!", "/")), 2)*100, "%"),
+
+                             '(Exc%)' = paste0("(", round(mean(.data$evaluation_code %in% c("#")), 2)*100, "%)"))
+    }
+}
+# Attack
+vr_attack <- function(x, team, by = "player", team_select = "Braslovče"){
+    y <- plays(x)
+    if (by == "player") {
+        y %>% 
+            dplyr::filter(.data$team %in% team_select, 
+                          .data$player_id != "unknown player", 
+                          .data$skill == "Attack") %>% 
+            group_by(.data$player_id) %>%
+            dplyr::summarize(Tot = n(),
+                      Err = sum(.data$evaluation %eq% "Error"),
+                      Blo = sum(.data$evaluation %eq% "Blocked"),
+                      'Pts' = sum(.data$evaluation %eq% "Winning attack"),
+                      'Pts%' = paste0(round(mean(.data$evaluation %eq% "Winning attack"), 2)*100, "%")) %>%
+            bind_rows(
+                y %>% 
+                    dplyr::filter(.data$team %in% team_select, 
+                                  .data$player_id != "unknown player", 
+                                  .data$skill == "Attack") %>% 
+                    mutate(player_id = "Team total") %>%
+                    group_by(.data$player_id) %>%
+                    dplyr::summarize(Tot = n(),
+                              Err = sum(.data$evaluation %eq% "Error"),
+                              Blo = sum(.data$evaluation %eq% "Blocked"),
+                              'Pts' = sum(.data$evaluation %eq% "Winning attack"),
+                              'Pts%' = paste0(round(mean(.data$evaluation %eq% "Winning attack"), 2)*100, "%")))
+    } else if (by == "set") {
+        y %>% 
+            dplyr::filter(.data$team %in% team_select, 
+                          .data$player_id != "unknown player", 
+                          .data$skill == "Attack") %>% 
+            group_by(.data$set_number) %>%
+            dplyr::summarize(Tot = n(),
+                      Err = sum(.data$evaluation %eq% "Error"),
+                      Blo = sum(.data$evaluation %eq% "Blocked"),
+                      'Pts' = sum(.data$evaluation %eq% "Winning attack"),
+                      'Pts%' = paste0(round(mean(.data$evaluation %in% "Winning attack"), 2)*100, "%"))
+    }
+}
+vr_freeball <- function(x, team, by = "player", team_select = "Braslovče"){
+    y <- plays(x)
+    if (by == "player") {
+        y %>% 
+            dplyr::filter(.data$team %in% team_select, 
+                          .data$player_id != "unknown player", 
+                          .data$skill == "Freeball") %>% 
+            group_by(.data$player_id) %>%
+            dplyr::summarize(Tot = n(),
+                      Err = sum(.data$evaluation %eq% "Error")) %>%
+            bind_rows(
+                y %>% 
+                    dplyr::filter(.data$team %in% team_select, 
+                                  .data$player_id != "unknown player", 
+                                  .data$skill == "Freeball") %>% 
+                    mutate(player_id = "Team total") %>%
+                    group_by(.data$player_id) %>%
+                    dplyr::summarize(Tot = n(),
+                              Err = sum(.data$evaluation %eq% "Error")))
+    } else if (by == "set") {
+        y %>% 
+            dplyr::filter(.data$team %in% team_select, 
+                          .data$player_id != "unknown player", 
+                          .data$skill == "Freeball") %>% 
+            group_by(.data$set_number) %>%
+            dplyr::summarize(Tot = n(),
+                      Err = sum(.data$evaluation %eq% "Error"))
+    }
+}
+# Block
+vr_block <- function(x, team, by = "player", team_select = "Braslovče"){
+    y <- plays(x)
+    if (by == "player"){
+        y %>% 
+            dplyr::filter(.data$team %in% team_select, 
+                          .data$player_id != "unknown player") %>% 
+            group_by(.data$player_id) %>%
+            dplyr::summarize(Punto = sum(.data$evaluation %eq% "Winning block" & .data$skill %eq% "Block")) %>%
+            bind_rows(
+                y %>% 
+                    dplyr::filter(.data$team %in% team_select, 
+                                  .data$player_id != "unknown player") %>% 
+                    mutate(player_id = "Team total") %>%
+                    group_by(.data$player_id) %>%
+                    dplyr::summarize(Punto = sum(.data$evaluation %eq% "Winning block" & .data$skill %eq% "Block")))
+    } else if (by == "set") {
+        y %>% dplyr::filter(.data$team %in% team_select, .data$player_id != "unknown player") %>% group_by(.data$set_number) %>%
+            dplyr::summarize(Punto = sum(.data$evaluation %eq% "Winning block" & .data$skill %eq% "Block"))
+    }
+}
 
 
 
@@ -221,11 +345,49 @@ t3 <- vr_points(x, by = "player", team_select = "Braslovče")
 t4 <- vr_serve(x, by = "set", team_select = "Braslovče")
 t5 <- vr_serve(x, by = "player", team_select = "Braslovče")
 
-t1 %>%
+# RECEPTION
+t6 <- vr_reception(x, by = "set", team_select = "Braslovče")
+t7 <- vr_reception(x, by = "player", team_select = "Braslovče")
+
+# ATTACK
+t8 <- vr_attack(x, by = "set", team_select = "Braslovče")
+t9 <- vr_attack(x, by = "player", team_select = "Braslovče")
+t10 <- vr_freeball(x, by = "set", team_select = "Braslovče")
+t11 <- vr_freeball(x, by = "player", team_select = "Braslovče")
+
+# BLOCK
+t12 <- vr_block(x, by = "set", team_select = "Braslovče")
+t13 <- vr_block(x, by = "player", team_select = "Braslovče")
+
+
+
+######################
+# TABLE
+
+t1 %>% 
+    left_join(y %>% 
+                  dplyr::select(player_id, player_name) %>% 
+                  filter(!is.na(player_id)) %>% 
+                  distinct(), by = c("name" = "player_name")) %>% 
+    left_join(t3, by = "player_id") %>% 
+    left_join(t5, by = "player_id") %>%
+    left_join(t7, by = "player_id") %>%
+    left_join(t9, by = "player_id") %>%
+    left_join(t11, by = "player_id") %>%
+    left_join(t13, by = "player_id") %>%
+    select(-player_id) %>% 
+    mutate(across(set1:set3, ~replace_na(.x, "-"))) %>% 
+    ### GT TABLE
     gt(id = "four") %>%
+    cols_label(
+        Tot.x = html("<strong>Tot</strong>"),
+        Tot.y = html("<strong>Tot</strong>")) %>% 
+    tab_spanner(
+    label = "Punti",
+    columns = Tot.x:`W-L`) %>% 
     cols_align(
     align = "center") %>% 
-    tab_options(table.width = px(300)) %>% 
+    tab_options(table.width = px(500)) %>% 
     opt_css(
     css = "
     #four .gt_col_heading {
@@ -240,7 +402,28 @@ t1 %>%
       text-align: center !important;
     }
     ")
-````
+
+
+
+
+t1 %>% 
+    left_join(y %>% 
+                  dplyr::select(player_id, player_name) %>% 
+                  filter(!is.na(player_id)) %>% 
+                  distinct(), by = c("name" = "player_name")) %>% 
+    left_join(t3, by = "player_id")
+
+
+t1 %>% 
+    left_join(y %>% 
+                  dplyr::select(player_id, player_name) %>% 
+                  filter(!is.na(player_id)) %>% 
+                  distinct(), by = c("name" = "player_name")) %>% 
+    bind_cols(t1 %>% 
+                  left_join(t3))
+
+
+```
 
 
 
