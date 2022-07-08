@@ -138,7 +138,7 @@ t1 <- x$meta$players_h %>%
 ##################
 # Functions
 # Points
-vr_points <- function(x, by = "player", team_select = "Braslovče") {
+        vr_points <- function(x, by = "player", team_select = "Braslovče") {
     as_for_datavolley <- TRUE
     by <- match.arg(tolower(by), c("player", "set"))
     if (by == "player") {
@@ -146,7 +146,7 @@ vr_points <- function(x, by = "player", team_select = "Braslovče") {
             dplyr::filter(.data$team %in% team_select, .data$player_id != "unknown player") %>% 
             group_by(.data$player_id) %>%
             dplyr::summarize(Tot = sum(.data$evaluation_code == "#" & .data$skill %in% c("Serve", "Attack", "Block")),
-                             BP = sum(.data$evaluation_code == "#" & .data$skill %in% c("Serve", "Attack", "Block") & .data$serving_team == team_select),
+                             # BP = sum(.data$evaluation_code == "#" & .data$skill %in% c("Serve", "Attack", "Block") & .data$serving_team == team_select),
                              Nerr = sum((.data$evaluation %eq% "Error" & .data$skill %in% c("Serve", "Reception", "Attack", if (!as_for_datavolley) "Set", if (!as_for_datavolley) "Freeball")) | (!as_for_datavolley & .data$evaluation %eq% "Invasion" & .data$skill %eq% "Block") | (.data$evaluation %eq% "Blocked" & .data$skill %eq% "Attack")),
                              'W-L' = .data$Tot - .data$Nerr)
         vr_pts <- vr_pts %>%
@@ -155,7 +155,7 @@ vr_points <- function(x, by = "player", team_select = "Braslovče") {
                 mutate(player_id = "Team total") %>% 
                 group_by(.data$player_id) %>%
                 dplyr::summarize(Tot = sum(.data$evaluation_code == "#" & .data$skill %in% c("Serve", "Attack", "Block")),
-                                 BP = sum(.data$evaluation_code == "#" & .data$skill %in% c("Serve", "Attack", "Block") & .data$serving_team == team_select),
+                                 # BP = sum(.data$evaluation_code == "#" & .data$skill %in% c("Serve", "Attack", "Block") & .data$serving_team == team_select),
                                  Nerr = sum((.data$evaluation %eq% "Error" & .data$skill %in% c("Serve", "Reception", "Attack", if (!as_for_datavolley) "Set", if (!as_for_datavolley) "Freeball")) | (!as_for_datavolley & .data$evaluation %eq% "Invasion" & .data$skill %eq% "Block") | (.data$evaluation %eq% "Blocked" & .data$skill %eq% "Attack")),
                                  'W-L' = .data$Tot - .data$Nerr))
     } else if (by == "set") {
@@ -165,8 +165,13 @@ vr_points <- function(x, by = "player", team_select = "Braslovče") {
             dplyr::summarize(Ser = sum(.data$evaluation_code == "#" & .data$skill == "Serve" & .data$team %in% team_select, na.rm = TRUE),
                              Atk = sum(.data$evaluation_code == "#" & .data$skill == "Attack" & .data$team %in% team_select, na.rm = TRUE),
                              Blo = sum(.data$evaluation_code == "#" & .data$skill == "Block" & .data$team %in% team_select, na.rm = TRUE),
-                             ## "Op.Er" = sum(.data$point & .data$team %in% team_select, na.rm = TRUE) - .data$Ser - .data$Atk - .data$Blo)
-                             "Op.Er" = max(.data$team_points, na.rm = TRUE) - .data$Ser - .data$Atk - .data$Blo)
+                             ## "Op.Er" = sum(.data$point & .data$team %in% team_select, na.rm = TRUE) - .data$Ser - .data$Atk - .data$Blo),
+                             Tot = sum(.data$evaluation_code == "#" & .data$skill %in% c("Serve", "Attack", "Block")),
+                                 # BP = sum(.data$evaluation_code == "#" & .data$skill %in% c("Serve", "Attack", "Block") & .data$serving_team == team_select),
+                                 Nerr = sum((.data$evaluation %eq% "Error" & .data$skill %in% c("Serve", "Reception", "Attack", if (!as_for_datavolley) "Set", if (!as_for_datavolley) "Freeball")) | (!as_for_datavolley & .data$evaluation %eq% "Invasion" & .data$skill %eq% "Block") | (.data$evaluation %eq% "Blocked" & .data$skill %eq% "Attack")),
+                                 'W-L' = .data$Tot - .data$Nerr,
+                             "Op.Er" = max(.data$team_points, na.rm = TRUE) - .data$Ser - .data$Atk - .data$Blo) %>% 
+            select(-c(Ser:Blo))
     }
     vr_pts
 }
@@ -363,7 +368,7 @@ t13 <- vr_block(x, by = "player", team_select = "Braslovče")
 
 ######################
 # TABLE
-
+y <- plays(x)
 t1 %>% 
     left_join(y %>% 
                   dplyr::select(player_id, player_name) %>% 
@@ -379,55 +384,142 @@ t1 %>%
     mutate(across(set1:set3, ~replace_na(.x, "-"))) %>% 
     ### GT TABLE
     gt(id = "four") %>%
+    tab_spanner(
+        label = "Punti",
+        columns = Tot.x:`W-L`) %>% 
+    tab_spanner(
+        label = "Battuta",
+        columns = Tot.y:Pos) %>% 
+    tab_spanner(
+        label = "Ricezione",
+        columns = Tot.x.x:`(Exc%)`) %>% 
+    tab_spanner(
+        label = "Attacco",
+        columns = Tot.y.y:`Pts%`) %>% 
+    tab_spanner(
+        label = "Freeball",
+        columns = Tot:Err.y.y) %>%
+    tab_spanner(
+        label = "Muro",
+        columns = Punto) %>%
     cols_label(
         Tot.x = html("<strong>Tot</strong>"),
-        Tot.y = html("<strong>Tot</strong>")) %>% 
-    tab_spanner(
-    label = "Punti",
-    columns = Tot.x:`W-L`) %>% 
+        Nerr = html("<span style='color: #ff0000'>Err</span>"),
+        `W-L` = html("D"),
+        Tot.y = html("<strong>Tot</strong>"),
+        Err.x = html("<span style='color: #ff0000'>Err</span>"),
+        Pts.x = html("Pts"),
+        Tot.x.x = html("<strong>Tot</strong>"),
+        Err.y = html("<span style='color: #ff0000'>Err</span>"),
+        Tot.y.y = html("<strong>Tot</strong>"),
+        Err.x.x = html("<span style='color: #ff0000'>Err</span>"),
+        Pts.y = html("Pts"),
+        Tot = html("<strong>Tot</strong>"),
+        Err.y.y = html("<span style='color: #ff0000'>Err</span>"),
+        Punto = html("Pts")) %>% 
     cols_align(
     align = "center") %>% 
-    tab_options(table.width = px(500)) %>% 
+    tab_options(table.width = px(700)) %>% 
     opt_css(
     css = "
     #four .gt_col_heading {
       padding: 2px 3px;
-      font-size: 10px;
+      font-size: 8px;
+    }
+     #four .gt_column_spanner {
+      padding: 0px 0px;
+      font-size: 8px;
     }
     #four .gt_row {
       padding: 2px 3px;
-      font-size: 7px;
+      font-size: 6px;
     }
     #four .gt_col_heading {
       text-align: center !important;
     }
     ")
+```
 
 
 
+S5
+================================================================================
 
-t1 %>% 
-    left_join(y %>% 
-                  dplyr::select(player_id, player_name) %>% 
-                  filter(!is.na(player_id)) %>% 
-                  distinct(), by = c("name" = "player_name")) %>% 
-    left_join(t3, by = "player_id")
-
-
-t1 %>% 
-    left_join(y %>% 
-                  dplyr::select(player_id, player_name) %>% 
-                  filter(!is.na(player_id)) %>% 
-                  distinct(), by = c("name" = "player_name")) %>% 
-    bind_cols(t1 %>% 
-                  left_join(t3))
+```{r main2}
+t2 %>% 
+    bind_cols(t4 %>% select(-set_number)) %>% 
+    bind_cols(t6 %>% select(-set_number)) %>% 
+    bind_cols(t8 %>% select(-set_number)) %>% 
+    bind_cols(t10 %>% select(-set_number)) %>% 
+    bind_cols(t12 %>% select(-set_number)) %>% 
+    ### GT TABLE
+    gt(id = "five") %>%
+    tab_spanner(
+        label = "Punti",
+        columns = Tot...2:Op.Er) %>% 
+    tab_spanner(
+        label = "Battuta",
+        columns = Tot...6:Pos) %>% 
+    tab_spanner(
+        label = "Ricezione",
+        columns = Tot...11:`(Exc%)`) %>% 
+    tab_spanner(
+        label = "Attacco",
+        columns = Tot...16:`Pts%`) %>% 
+    tab_spanner(
+        label = "Freeball",
+        columns = Tot...21:Err...22) %>%
+    tab_spanner(
+        label = "Muro",
+        columns = Punto)%>%
+    cols_label(
+        set_number = html("Set"),
+        Tot...2 = html("<strong>Tot</strong>"),
+        Nerr = html("<strong>Err</strong>"),
+        `W-L` = html("D"),
+        Tot...6 = html("<strong>Tot</strong>"),
+        Err...7 = html("<strong>Err</strong>"),
+        Pts...8 = html("Pts"),
+        Tot...11 = html("<strong>Tot</strong>"),
+        Err...12 = html("<strong>Err</strong>"),
+        Tot...16 = html("<strong>Tot</strong>"),
+        Err...17 = html("<strong>Err</strong>"),
+        Blo = html("Muto"),
+        Pts...19 = html("Pts"),
+        Tot...21 = html("<strong>Tot</strong>"),
+        Err...22 = html("<strong>Err</strong>"),
+        Punto = html("Pts")) %>% 
+    cols_align(
+    align = "center") %>% 
+    tab_options(table.width = px(450)) %>% 
+    opt_css(
+    css = "
+    #five .gt_col_heading {
+      padding: 2px 3px;
+      font-size: 8px;
+    }
+    #five .gt_column_spanner {
+      padding: 0px 0px;
+      font-size: 8px;
+    }
+    #five .gt_row {
+      padding: 2px 3px;
+      font-size: 6px;
+    }
+    #five .gt_col_heading {
+      text-align: center !important;
+    }
+    ")
 
 
 ```
 
 
+S6
+================================================================================
 
-PIPPO6
+
+S7
 ================================================================================
 
 
