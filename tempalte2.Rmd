@@ -78,6 +78,7 @@ meta1 %>%
     gt(id = "two") %>%
     tab_options(#table.width = px(150),
                 column_labels.hidden = TRUE) %>% 
+    tab_options(table.width = px(200)) %>% 
     opt_css(
     css = "
     #two .gt_header {
@@ -109,7 +110,7 @@ x$meta$result %>%
     gt(id = "third") %>%
     cols_align(
     align = "center") %>% 
-    tab_options(table.width = px(300)) %>% 
+    tab_options(table.width = px(200)) %>% 
     opt_css(
     css = "
     #third .gt_col_heading {
@@ -141,7 +142,7 @@ t1 <- x$meta$players_h %>%
 ##################
 # Functions
 # Points
-        vr_points <- function(x, by = "player", team_select = noi) {
+vr_points <- function(x, by = "player", team_select = noi) {
     as_for_datavolley <- TRUE
     by <- match.arg(tolower(by), c("player", "set"))
     if (by == "player") {
@@ -383,6 +384,8 @@ t1 %>%
     mutate(across(set1:set3, ~replace_na(.x, "-"))) %>% 
     ### GT TABLE
     gt(id = "four") %>%
+    tab_header(
+      title = paste0(noi)) %>% 
     tab_spanner(
         label = "Punti",
         columns = Tot.x:`W-L`) %>% 
@@ -455,44 +458,46 @@ vr_points(x, by = "set", team_select = noi) %>%
     bind_cols(vr_block(x, by = "set", team_select = noi) %>% select(-set_number)) %>% 
     ### GT TABLE
     gt(id = "five") %>%
+    tab_header(
+      title = paste0(noi)) %>% 
     tab_spanner(
         label = "Punti",
-        columns = Tot...2:Op.Er) %>% 
+        columns = Ser:Op.Er) %>% 
     tab_spanner(
         label = "Battuta",
-        columns = Tot...6:Pos) %>% 
+        columns = Tot...7:Pos) %>% 
     tab_spanner(
         label = "Ricezione",
-        columns = Tot...11:`(Exc%)`) %>% 
+        columns = Tot...12:`(Exc%)`) %>% 
     tab_spanner(
         label = "Attacco",
-        columns = Tot...16:`Pts%`) %>% 
+        columns = Tot...17:`Pts%`) %>% 
     tab_spanner(
         label = "Freeball",
-        columns = Tot...21:Err...22) %>%
+        columns = Tot...22:Err...23) %>%
     tab_spanner(
         label = "Muro",
-        columns = Punto)%>%
+        columns = Punto) %>%
     cols_label(
         set_number = html("Set"),
-        Tot...2 = html("<strong>Tot</strong>"),
-        Nerr = html("<strong>Err</strong>"),
-        `W-L` = html("D"),
-        Tot...6 = html("<strong>Tot</strong>"),
-        Err...7 = html("<strong>Err</strong>"),
-        Pts...8 = html("Pts"),
-        Tot...11 = html("<strong>Tot</strong>"),
-        Err...12 = html("<strong>Err</strong>"),
-        Tot...16 = html("<strong>Tot</strong>"),
-        Err...17 = html("<strong>Err</strong>"),
-        Blo = html("Muto"),
-        Pts...19 = html("Pts"),
-        Tot...21 = html("<strong>Tot</strong>"),
-        Err...22 = html("<strong>Err</strong>"),
+        Ser = html("Bat"),
+        Blo...4 = html("Muto"),
+        Tot...5 = html("<strong>Tot</strong>"),
+        Tot...7 = html("<strong>Tot</strong>"),
+        Err...8 = html("<strong>Err</strong>"),
+        Pts...9 = html("Pts"),
+        Tot...12 = html("<strong>Tot</strong>"),
+        Err...13 = html("<strong>Err</strong>"),
+        Tot...17 = html("<strong>Tot</strong>"),
+        Err...18 = html("<strong>Err</strong>"),
+        Blo...19 = html("Muto"),
+        Pts...20 = html("Pts"),
+        Tot...22 = html("<strong>Tot</strong>"),
+        Err...23 = html("<strong>Err</strong>"),
         Punto = html("Pts")) %>% 
     cols_align(
     align = "center") %>% 
-    tab_options(table.width = px(450)) %>% 
+    tab_options(table.width = px(500)) %>% 
     opt_css(
     css = "
     #five .gt_col_heading {
@@ -521,44 +526,46 @@ vr_points(x, by = "set", team_select = loro) %>%
     bind_cols(vr_block(x, by = "set", team_select = loro) %>% select(-set_number)) %>% 
     ### GT TABLE
     gt(id = "five") %>%
+    tab_header(
+      title = paste0(loro)) %>% 
     tab_spanner(
         label = "Punti",
-        columns = Tot...2:Op.Er) %>% 
+        columns = Ser:Op.Er) %>% 
     tab_spanner(
         label = "Battuta",
-        columns = Tot...6:Pos) %>% 
+        columns = Tot...7:Pos) %>% 
     tab_spanner(
         label = "Ricezione",
-        columns = Tot...11:`(Exc%)`) %>% 
+        columns = Tot...12:`(Exc%)`) %>% 
     tab_spanner(
         label = "Attacco",
-        columns = Tot...16:`Pts%`) %>% 
+        columns = Tot...17:`Pts%`) %>% 
     tab_spanner(
         label = "Freeball",
-        columns = Tot...21:Err...22) %>%
+        columns = Tot...22:Err...23) %>%
     tab_spanner(
         label = "Muro",
-        columns = Punto)%>%
+        columns = Punto) %>%
     cols_label(
         set_number = html("Set"),
-        Tot...2 = html("<strong>Tot</strong>"),
-        Nerr = html("<strong>Err</strong>"),
-        `W-L` = html("D"),
-        Tot...6 = html("<strong>Tot</strong>"),
-        Err...7 = html("<strong>Err</strong>"),
-        Pts...8 = html("Pts"),
-        Tot...11 = html("<strong>Tot</strong>"),
-        Err...12 = html("<strong>Err</strong>"),
-        Tot...16 = html("<strong>Tot</strong>"),
-        Err...17 = html("<strong>Err</strong>"),
-        Blo = html("Muto"),
-        Pts...19 = html("Pts"),
-        Tot...21 = html("<strong>Tot</strong>"),
-        Err...22 = html("<strong>Err</strong>"),
+        Ser = html("Bat"),
+        Blo...4 = html("Muto"),
+        Tot...5 = html("<strong>Tot</strong>"),
+        Tot...7 = html("<strong>Tot</strong>"),
+        Err...8 = html("<strong>Err</strong>"),
+        Pts...9 = html("Pts"),
+        Tot...12 = html("<strong>Tot</strong>"),
+        Err...13 = html("<strong>Err</strong>"),
+        Tot...17 = html("<strong>Tot</strong>"),
+        Err...18 = html("<strong>Err</strong>"),
+        Blo...19 = html("Muto"),
+        Pts...20 = html("Pts"),
+        Tot...22 = html("<strong>Tot</strong>"),
+        Err...23 = html("<strong>Err</strong>"),
         Punto = html("Pts")) %>% 
     cols_align(
     align = "center") %>% 
-    tab_options(table.width = px(450)) %>% 
+    tab_options(table.width = px(500)) %>% 
     opt_css(
     css = "
     #five .gt_col_heading {
