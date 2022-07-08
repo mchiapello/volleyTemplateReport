@@ -404,18 +404,18 @@ t1 %>%
         columns = Punto) %>%
     cols_label(
         Tot.x = html("<strong>Tot</strong>"),
-        Nerr = html("<span style='color: #ff0000'>Err</span>"),
+        Nerr = html("<strong>Err</strong>"),
         `W-L` = html("D"),
         Tot.y = html("<strong>Tot</strong>"),
-        Err.x = html("<span style='color: #ff0000'>Err</span>"),
+        Err.x = html("<strong>Err</strong>"),
         Pts.x = html("Pts"),
         Tot.x.x = html("<strong>Tot</strong>"),
-        Err.y = html("<span style='color: #ff0000'>Err</span>"),
+        Err.y = html("<strong>Err</strong>"),
         Tot.y.y = html("<strong>Tot</strong>"),
-        Err.x.x = html("<span style='color: #ff0000'>Err</span>"),
+        Err.x.x = html("<strong>Err</strong>"),
         Pts.y = html("Pts"),
         Tot = html("<strong>Tot</strong>"),
-        Err.y.y = html("<span style='color: #ff0000'>Err</span>"),
+        Err.y.y = html("<strong>Err</strong>"),
         Punto = html("Pts")) %>% 
     cols_align(
     align = "center") %>% 
