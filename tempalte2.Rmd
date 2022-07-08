@@ -20,6 +20,7 @@ knitr::opts_chunk$set(echo = FALSE,
                       message = FALSE)
 
 source("utils.R")
+x <- dv_read("example.dvw")
 noi <- "Braslovče"
 loro <- teams(x)[teams(x) != noi]
 
@@ -32,8 +33,6 @@ S1
 ================================================================================
 
 ```{r risultato}
-x <- dv_read("example.dvw")
-
 x$meta$teams %>%
     select(team, sets_won) %>% 
     gt(id = "one") %>%
@@ -590,6 +589,76 @@ vr_points(x, by = "set", team_select = loro) %>%
 
 S6
 ================================================================================
+```{r, results = "asis"}
+vr_content_team_each <- function(x, which_team = noi) {
+    if(which_team == noi){
+        home <- teams(x)[teams(x) == noi]
+        away <- teams(x)[teams(x) != noi]
+    } else {
+        home <- teams(x)[teams(x) != noi]
+        away <- teams(x)[teams(x) == noi]
+    }
+    y <- plays(x)
+    rthis <- y %>%
+        dplyr::summarize(Receptions = sum(.data$skill == "Reception" & .data$team == home, na.rm = TRUE),
+                         'Earned pts SO' = sum(.data$serving_team == away & .data$skill %in% c("Attack", "Block") & .data$evaluation_code == "#" & .data$team == home, na.rm = TRUE)) %>%
+        pivot_longer(cols = 1:2)
+
+    sthis <- y %>% 
+        dplyr::filter(.data$team == home) %>%
+        dplyr::summarize(Serves = sum(.data$skill == "Serve", na.rm = TRUE),
+                         'Earned pts BP' = sum(.data$serving_team == home  & .data$skill %in% c("Serve", "Attack", "Block") & .data$evaluation_code == "#", na.rm = TRUE)) %>%
+        pivot_longer(cols = 1:2)
+
+   rthis %>% 
+       bind_rows(sthis) %>% 
+       bind_rows(tibble(name = c(paste0("Each ", round(rthis$value[1]/rthis$value[2], 2), 
+                                        " receptions 1 point"),
+                                 paste0("Each ", round(sthis$value[1]/sthis$value[2], 2), 
+                                        " serves 1 breakpoint")),
+                        value = NA))
+          
+
+}
+
+noi1 <- vr_content_team_each(x, which_team = noi)
+loro1 <- vr_content_team_each(x, which_team = loro)
+
+noi1 %>% 
+    gt(id = "six") %>% 
+    tab_options(table.width = px(170),
+                column_labels.hidden = TRUE) %>%
+    tab_header(title = paste0(noi)) %>% 
+    cols_align(align = "center") %>% 
+    opt_css(
+    css = "
+    #six .gt_col_heading {
+      padding: 2px 3px;
+      font-size: 8px;
+    }
+    #six .gt_column_spanner {
+      padding: 0px 0px;
+      font-size: 8px;
+    }
+    #six .gt_row {
+      padding: 2px 3px;
+      font-size: 6px;
+    }
+    #six .gt_col_heading {
+      text-align: center !important;
+    }
+     #six .gt_row {
+      padding: 1px 0px 1px 0px !important;
+    }
+    ")
+
+loro1 %>% 
+     gt(id = "six") %>% 
+    tab_options(table.width = px(170),
+                column_labels.hidden = TRUE) %>%
+    tab_header(title = paste0(loro)) %>% 
+    cols_align(align = "center")
+```
 
 
 S7
