@@ -1,5 +1,5 @@
 ---
-title: "PGS Foglizzese - TSEC"
+title: "PIPPO"
 output:
   pagedown::poster_jacobs:
     css:
@@ -20,8 +20,19 @@ knitr::opts_chunk$set(echo = FALSE,
                       message = FALSE)
 
 source("utils.R")
-x <- dv_read("example.dvw")
-noi <- "Braslovče"
+
+x <- dv_read("example2.dvw")
+x$plays <- x$plays %>% 
+    bind_rows(x$plays %>% 
+                  filter(set_number == 1, skill == "Freeball", team == "GKS Katowice") %>%
+                  mutate(set_number = 3)) %>% 
+    bind_rows(x$plays %>% 
+                  filter(set_number == 1, skill == "Freeball", team != "GKS Katowice") %>%
+                  mutate(set_number = 2)) %>% 
+    bind_rows(x$plays %>% 
+                  filter(set_number == 1, skill == "Freeball", team != "GKS Katowice") %>%
+                  mutate(set_number = 3))
+noi <- "GKS Katowice"
 loro <- teams(x)[teams(x) != noi]
 
 ```
@@ -131,8 +142,6 @@ x$meta$result %>%
 S4
 ================================================================================
 ```{r main}
-noi <- home_team(x)
-
 t1 <- x$meta$players_h %>% 
     select(number, name, starting_position_set1:starting_position_set5) %>% 
     select(where(~sum(!is.na(.x)) > 0)) %>% 
@@ -380,7 +389,10 @@ t1 %>%
     left_join(t11, by = "player_id") %>%
     left_join(t13, by = "player_id") %>%
     select(-player_id) %>% 
-    mutate(across(set1:set3, ~replace_na(.x, "-"))) %>% 
+    mutate(across(starts_with("set"), ~replace_na(.x, "-"))) %>% 
+    mutate(across(where(is.numeric), ~replace_na(.x, 0))) %>% 
+    mutate(across(where(is.character), ~replace_na(.x, "0"))) %>% 
+    filter(if_any(starts_with("set"), ~ . != "-")) %>% 
     ### GT TABLE
     gt(id = "four") %>%
     tab_header(
