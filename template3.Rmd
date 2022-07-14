@@ -21,7 +21,7 @@ knitr::opts_chunk$set(echo = FALSE,
 
 source("utils.R")
 
-x <- dv_read("example2.dvw")
+x <- dv_read("example4.dvw")
 x$plays <- x$plays %>% 
     bind_rows(x$plays %>% 
                   filter(set_number == 1, skill == "Freeball", team == "GKS Katowice") %>%
@@ -32,7 +32,9 @@ x$plays <- x$plays %>%
     bind_rows(x$plays %>% 
                   filter(set_number == 1, skill == "Freeball", team != "GKS Katowice") %>%
                   mutate(set_number = 3))
-noi <- "GKS Katowice"
+# noi <- "GKS Katowice"
+# loro <- teams(x)[teams(x) != noi]
+noi <- teams(x)[1]
 loro <- teams(x)[teams(x) != noi]
 
 ```
@@ -321,7 +323,14 @@ vr_freeball <- function(x, team, by = "player", team_select = noi){
                           .data$skill == "Freeball") %>% 
             group_by(.data$set_number) %>%
             dplyr::summarize(Tot = n(),
-                      Err = sum(.data$evaluation %eq% "Error"))
+                             Err = sum(.data$evaluation %eq% "Error")) %>% 
+            full_join(tibble(set_number = 1:nrow(x$meta$result),
+                             Tot = 0,
+                             Err = 0),
+                      by = "set_number") %>% 
+            select(-ends_with("y")) %>% 
+            rename_with(~str_remove(.x, ".x")) %>% 
+            replace_na(list(Tot = 0, Err = 0))
     }
 }
 # Block
@@ -341,13 +350,18 @@ vr_block <- function(x, team, by = "player", team_select = noi){
                     group_by(.data$player_id) %>%
                     dplyr::summarize(Punto = sum(.data$evaluation %eq% "Winning block" & .data$skill %eq% "Block")))
     } else if (by == "set") {
-        y %>% dplyr::filter(.data$team %in% team_select, .data$player_id != "unknown player") %>% group_by(.data$set_number) %>%
-            dplyr::summarize(Punto = sum(.data$evaluation %eq% "Winning block" & .data$skill %eq% "Block"))
+        y %>% 
+            dplyr::filter(.data$team %in% team_select, .data$player_id != "unknown player") %>%
+            group_by(.data$set_number) %>%
+            dplyr::summarize(Punto = sum(.data$evaluation %eq% "Winning block" & .data$skill %eq% "Block"))  %>% 
+            full_join(tibble(set_number = 1:nrow(x$meta$result),
+                             Punto = 0),
+                      by = "set_number") %>% 
+            select(-ends_with("y")) %>% 
+            rename_with(~str_remove(.x, ".x")) %>% 
+            replace_na(list(Tot = 0, Err = 0))
     }
 }
-
-
-
 
 #####################
 # POINTS
