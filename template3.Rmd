@@ -562,6 +562,14 @@ vr_points(x, by = "set", team_select = noi) %>%
                                    style = "solid"),
               locations = cells_body(columns = last_col(),
                                      rows = everything())) %>% 
+    # tab_style(
+    # style = list(
+    #   cell_fill(color = "grey60"),
+    #   cell_text(weight = "bold")
+    #   ),
+    # locations = cells_body(
+    #   columns = Tot...2,
+    #   rows = Tot...2 == max(Tot...2))) %>% 
     opt_css(
     css = "
     #five .gt_col_heading {
