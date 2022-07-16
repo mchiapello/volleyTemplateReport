@@ -542,7 +542,8 @@ vr_points(x, by = "set", team_select = noi) %>%
         Punto = html("Pts")) %>% 
     cols_align(
     align = "center") %>% 
-    tab_options(table.width = px(500)) %>% 
+    tab_options(table.width = px(500),
+                row.striping.include_table_body = TRUE) %>% 
         tab_style(style = cell_borders(sides = "left",
                                    color = "grey50",
                                    weight = px(.9),
@@ -593,7 +594,7 @@ vr_points(x, by = "set", team_select = loro) %>%
       title = paste0(loro)) %>% 
     tab_spanner(
         label = "Punti",
-        columns = Ser:Op.Er) %>% 
+        columns = Tot...2:Op.Er) %>% 
     tab_spanner(
         label = "Battuta",
         columns = Tot...7:Pos) %>% 
@@ -611,9 +612,9 @@ vr_points(x, by = "set", team_select = loro) %>%
         columns = Punto) %>%
     cols_label(
         set_number = html("Set"),
+        Tot...2 = html("<strong>Tot</strong>"),
         Ser = html("Bat"),
-        Blo...4 = html("Muro"),
-        Tot...5 = html("<strong>Tot</strong>"),
+        Blo...5 = html("Muro"),
         Tot...7 = html("<strong>Tot</strong>"),
         Err...8 = html("<strong>Err</strong>"),
         Pts...9 = html("Pts"),
@@ -628,7 +629,8 @@ vr_points(x, by = "set", team_select = loro) %>%
         Punto = html("Pts")) %>% 
     cols_align(
     align = "center") %>% 
-    tab_options(table.width = px(500)) %>% 
+    tab_options(table.width = px(500),
+                row.striping.include_table_body = TRUE) %>% 
         tab_style(style = cell_borders(sides = "left",
                                    color = "grey50",
                                    weight = px(.9),
