@@ -764,7 +764,8 @@ loro1 %>%
 S7
 ================================================================================
 
-```{r, fig.width=2, fig.height=4}
+```{r}
+range02 <- function(x) {(x - min(x, na.rm=TRUE)) / diff(range(x, na.rm=TRUE))}
 ## calculate attack frequency by zone, per team
 attack_rate <- plays(x) %>% 
     dplyr::filter(skill == "Attack") %>%
@@ -780,18 +781,21 @@ attack_rate <- cbind(attack_rate, dv_xy(attack_rate$start_zone, end = "lower"))
 tm2i <- attack_rate$team == teams(x)[2]
 attack_rate[tm2i, c("x", "y")] <- dv_flip_xy(attack_rate[tm2i, c("x", "y")])
 
-ggplot(attack_rate, aes(x, y, fill = rate)) + 
-    geom_tile(show.legend = FALSE) + 
-    ggcourt(labels = teams(x)) +
+p1 <- attack_rate %>% 
+    mutate(rate = range02(rate)) %>% 
+    ggplot(aes(x, y, fill = rate)) + 
+    geom_tile() +
+    ggcourt(labels = "") +
     scale_fill_gradient2(low = "white",
                          high = "black",
                          name = "Attack rate") +
-    labs(title = "Attacchi da")
-```
+     labs(title = "Attacchi",
+         subtitle = "Zona di partenza") +
+    annotate(geom = "text", x = 2, y = 0, label = ifelse(teams(x)[1] == noi, "Noi", "Loro")) +
+    annotate(geom = "text", x = 2, y = 7, label = ifelse(teams(x)[2] == noi, "Noi", "Loro")) +
+    theme(plot.title = element_text(hjust = .5),
+          plot.subtitle = element_text(hjust = .5))
 
-S8
-================================================================================
-```{r, fig.width=2, fig.height=4}
 ## calculate attack frequency by zone, per team
 attack_rate <- plays(x) %>% 
     dplyr::filter(skill == "Attack") %>%
@@ -819,19 +823,21 @@ attack_rate <- attack_rate %>%
                           y == 5 ~ 2,
                           y == 6~ 1))
     
-ggplot(attack_rate, aes(x2, y2, fill = rate)) + 
-    geom_tile(show.legend = FALSE) + 
-    ggcourt(labels = teams(x)) +
+p2 <-  attack_rate %>% 
+    mutate(rate = range02(rate)) %>% 
+    ggplot(aes(x, y, fill = rate)) + 
+    geom_tile() +
+    ggcourt(labels = "") +
     scale_fill_gradient2(low = "white",
                          high = "black",
                          name = "Attack rate") +
-    labs(title = "Attacchi per")
+     labs(title = "Attacchi",
+         subtitle = "Zona di arrivo") +
+    annotate(geom = "text", x = 2, y = 0, label = ifelse(teams(x)[1] == noi, "Noi", "Loro")) +
+    annotate(geom = "text", x = 2, y = 7, label = ifelse(teams(x)[2] == noi, "Noi", "Loro")) +
+    theme(plot.title = element_text(hjust = .5),
+          plot.subtitle = element_text(hjust = .5))
 
-```
-
-S9
-================================================================================
-```{r, fig.width=2, fig.height=4}
 ## take just the serves from the play-by-play data
 serve_rate <- plays(x) %>% 
     filter(skill == "Serve") %>%
@@ -859,11 +865,23 @@ serve_rate <- serve_rate %>%
                           y == 5 ~ 2,
                           y == 6~ 1))
 
-ggplot(serve_rate, aes(x2, y2, fill = rate)) + 
-    geom_tile(show.legend = FALSE) + 
-    ggcourt(labels = teams(x)) +
+p3 <-  serve_rate %>% 
+    mutate(rate = range02(rate)) %>% 
+    ggplot(aes(x, y, fill = rate)) + 
+    geom_tile() +
+    ggcourt(labels = "") +
     scale_fill_gradient2(low = "white",
                          high = "black",
                          name = "Attack rate") +
-    labs(title = "Battute per")
+    labs(title = "Battute",
+         subtitle = "Zona di arrivo") +
+    annotate(geom = "text", x = 2, y = 0, label = ifelse(teams(x)[1] == noi, "Noi", "Loro")) +
+    annotate(geom = "text", x = 2, y = 7, label = ifelse(teams(x)[2] == noi, "Noi", "Loro")) +
+    theme(plot.title = element_text(hjust = .5),
+          plot.subtitle = element_text(hjust = .5))
+
+library(patchwork)
+p1 + p2 + p3 + 
+    plot_layout(guides = 'collect')
 ```
+
