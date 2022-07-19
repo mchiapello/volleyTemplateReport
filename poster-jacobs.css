@@ -24,16 +24,11 @@ body {
   grid-template-areas:
     'S1 S1 S2 S2 S2 S2 S3 S3 S3 S3'
     'S4 S4 S4 S4 S4 S4 S4 S4 S4 S4'
-    'S4 S4 S4 S4 S4 S4 S4 S4 S4 S4'
-    'S4 S4 S4 S4 S4 S4 S4 S4 S4 S4'
     'S5 S5 S5 S5 S5 S5 S5 S6 S6 S6'
-    'S5 S5 S5 S5 S5 S5 S5 S6 S6 S6'
-    'S5 S5 S5 S5 S5 S5 S5 S6 S6 S6'
-    'S7 S7 S7 S7 S7 S7 S7 S7 S7 S7'
-    'S7 S7 S7 S7 S7 S7 S7 S7 S7 S7'
-    'S7 S7 S7 S7 S7 S7 S7 S7 S7 S7';
+    'S7 S7 S7 S7 S7 S7 S7 S8 S8 S8'
+    'S9 S9 S9 S9 S9 S9 S9 S9 S9 S9';
   grid-template-columns: repeat(9, 1fr);
-  grid-template-rows: repeat(11, 1fr);
+  grid-template-rows: minmax(30px, 70px) minmax(150px, 230px) 120px 120px 200px;
 }
 
 .section-1 { grid-area: S1; }

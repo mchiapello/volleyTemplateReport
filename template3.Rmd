@@ -21,7 +21,7 @@ knitr::opts_chunk$set(echo = FALSE,
 
 source("utils.R")
 
-x <- dv_read("example6.dvw")
+x <- dv_read("example4.dvw")
 x$plays <- x$plays %>% 
     bind_rows(x$plays %>% 
                   filter(set_number == 1, skill == "Freeball", team == "GKS Katowice") %>%
@@ -588,7 +588,89 @@ vr_points(x, by = "set", team_select = noi) %>%
       text-align: center !important;
     }
     ")
+```
 
+S6
+================================================================================
+
+```{r, results = "asis"}
+vr_content_team_each <- function(x, which_team = noi) {
+    if(which_team == noi){
+        home <- teams(x)[teams(x) == noi]
+        away <- teams(x)[teams(x) != noi]
+    } else {
+        home <- teams(x)[teams(x) != noi]
+        away <- teams(x)[teams(x) == noi]
+    }
+    y <- plays(x)
+    rthis <- y %>%
+        dplyr::summarize(Ricezioni = sum(.data$skill == "Reception" & .data$team == home, na.rm = TRUE),
+                         'Punti guadagnati in Cambio Palla' = sum(.data$serving_team == away & .data$skill %in% c("Attack", "Block") & .data$evaluation_code == "#" & .data$team == home, na.rm = TRUE)) %>%
+        pivot_longer(cols = 1:2)
+
+    sthis <- y %>% 
+        dplyr::filter(.data$team == home) %>%
+        dplyr::summarize(Battute = sum(.data$skill == "Serve", na.rm = TRUE),
+                         'Punti guadagnati in Break Point' = sum(.data$serving_team == home  & .data$skill %in% c("Serve", "Attack", "Block") & .data$evaluation_code == "#", na.rm = TRUE)) %>%
+        pivot_longer(cols = 1:2)
+
+   rthis %>% 
+       bind_rows(sthis) %>% 
+       bind_rows(tibble(name = c(paste0("1 Punto ogni ", round(rthis$value[1]/rthis$value[2], 2), 
+                                        " ricezioni"),
+                                 paste0("1 Punto ogni ", round(sthis$value[1]/sthis$value[2], 2), 
+                                        " battute")),
+                        value = NA))
+          
+
+}
+
+noi1 <- vr_content_team_each(x, which_team = noi)
+
+
+noi1 %>% 
+    dplyr::slice(1:4) %>% 
+    gt(id = "six") %>% 
+    tab_options(table.width = px(170),
+                column_labels.hidden = TRUE) %>%
+    tab_header(title = paste0(noi)) %>% 
+    tab_source_note(noi1 %>% 
+                        dplyr::slice(5:6) %>% 
+                        pull(name)) %>% 
+    cols_align(align = "center") %>% 
+    opt_css(
+    css = "
+    #six .gt_title {
+      font-size: 10px !important;
+    }
+    #six .gt_sourcenote {
+      font-size: 10px !important;
+    }
+    #six .gt_col_heading {
+      padding: 2px 3px;
+      font-size: 8px;
+    }
+    #six .gt_column_spanner {
+      padding: 0px 0px;
+      font-size: 8px;
+    }
+    #six .gt_row {
+      padding: 2px 3px;
+      font-size: 6px;
+    }
+    #six .gt_col_heading {
+      text-align: center !important;
+    }
+     #six .gt_row {
+      padding: 1px 0px 1px 0px !important;
+    }
+    ")
+```
+
+S7
+================================================================================
+
+```{r}
 # Loro
 vr_points(x, by = "set", team_select = loro) %>% 
     bind_cols(vr_serve(x, by = "set", team_select = loro) %>% select(-set_number)) %>% 
@@ -673,81 +755,11 @@ vr_points(x, by = "set", team_select = loro) %>%
 ```
 
 
-S6
+S8
 ================================================================================
-```{r, results = "asis"}
-vr_content_team_each <- function(x, which_team = noi) {
-    if(which_team == noi){
-        home <- teams(x)[teams(x) == noi]
-        away <- teams(x)[teams(x) != noi]
-    } else {
-        home <- teams(x)[teams(x) != noi]
-        away <- teams(x)[teams(x) == noi]
-    }
-    y <- plays(x)
-    rthis <- y %>%
-        dplyr::summarize(Ricezioni = sum(.data$skill == "Reception" & .data$team == home, na.rm = TRUE),
-                         'Punti guadagnati in Cambio Palla' = sum(.data$serving_team == away & .data$skill %in% c("Attack", "Block") & .data$evaluation_code == "#" & .data$team == home, na.rm = TRUE)) %>%
-        pivot_longer(cols = 1:2)
 
-    sthis <- y %>% 
-        dplyr::filter(.data$team == home) %>%
-        dplyr::summarize(Battute = sum(.data$skill == "Serve", na.rm = TRUE),
-                         'Punti guadagnati in Break Point' = sum(.data$serving_team == home  & .data$skill %in% c("Serve", "Attack", "Block") & .data$evaluation_code == "#", na.rm = TRUE)) %>%
-        pivot_longer(cols = 1:2)
-
-   rthis %>% 
-       bind_rows(sthis) %>% 
-       bind_rows(tibble(name = c(paste0("1 Punto ogni ", round(rthis$value[1]/rthis$value[2], 2), 
-                                        " ricezioni"),
-                                 paste0("1 Punto ogni ", round(sthis$value[1]/sthis$value[2], 2), 
-                                        " battute")),
-                        value = NA))
-          
-
-}
-
-noi1 <- vr_content_team_each(x, which_team = noi)
+```{r}
 loro1 <- vr_content_team_each(x, which_team = loro)
-
-noi1 %>% 
-    dplyr::slice(1:4) %>% 
-    gt(id = "six") %>% 
-    tab_options(table.width = px(170),
-                column_labels.hidden = TRUE) %>%
-    tab_header(title = paste0(noi)) %>% 
-    tab_source_note(noi1 %>% 
-                        dplyr::slice(5:6) %>% 
-                        pull(name)) %>% 
-    cols_align(align = "center") %>% 
-    opt_css(
-    css = "
-    #six .gt_title {
-      font-size: 10px !important;
-    }
-    #six .gt_sourcenote {
-      font-size: 10px !important;
-    }
-    #six .gt_col_heading {
-      padding: 2px 3px;
-      font-size: 8px;
-    }
-    #six .gt_column_spanner {
-      padding: 0px 0px;
-      font-size: 8px;
-    }
-    #six .gt_row {
-      padding: 2px 3px;
-      font-size: 6px;
-    }
-    #six .gt_col_heading {
-      text-align: center !important;
-    }
-     #six .gt_row {
-      padding: 1px 0px 1px 0px !important;
-    }
-    ")
-
 loro1 %>% 
      dplyr::slice(1:4) %>% 
      gt(id = "six") %>% 
@@ -761,7 +773,7 @@ loro1 %>%
 ```
 
 
-S7
+S9
 ================================================================================
 
 ```{r}
