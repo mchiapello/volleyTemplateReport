@@ -21,7 +21,7 @@ knitr::opts_chunk$set(echo = FALSE,
 
 source("utils.R")
 
-x <- dv_read("example4.dvw")
+x <- dv_read("example3.dvw")
 x$plays <- x$plays %>% 
     bind_rows(x$plays %>% 
                   filter(set_number == 1, skill == "Freeball", team == "GKS Katowice") %>%
@@ -51,7 +51,7 @@ x$meta$teams %>%
     gt(id = "one") %>%
     tab_header(title = "Risultato finale") %>% 
     fmt_markdown(columns = everything()) %>%
-    tab_options(table.width = px(90),
+    tab_options(table.width = px(120),
                 column_labels.hidden = TRUE) %>% 
     opt_css(
     css = "
