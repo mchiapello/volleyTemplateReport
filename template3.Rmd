@@ -115,8 +115,25 @@ S3
 ================================================================================
 
 ```{r meta3}
+
 x$meta$result %>%
-    mutate(Set = row_number()) %>% 
+    mutate(Set = row_number()) %>%
+    select(Set, duration, score_intermediate1:score_intermediate3, score) %>% 
+    bind_rows(tibble(Set = NA,
+                     duration = sum(x$meta$result$duration),
+                     score_intermediate1 = NA,
+                     score_intermediate2 = NA,
+                     score_intermediate3 = NA,
+                     score = x$meta$result %>%
+                         select(score) %>% 
+                         separate(score, into = c("a", "b"), sep = "-") %>%
+                         summarise(a = sum(as.numeric(a), na.rm = TRUE),
+                                   b = sum(as.numeric(b), na.rm = TRUE)) %>% 
+                         unite("score", a:b, sep = "-") %>% 
+                         pull(score))) %>% 
+    mutate(across(starts_with("score_"), ~replace_na(.x, "-"))) %>% 
+    mutate(Set = as.character(Set)) %>% 
+    replace_na(list(Set = "Totale"))%>% 
     unite("Parziali", score_intermediate1:score_intermediate3, sep = " / ") %>% 
     select(Set, Durata = duration, Parziali, Punteggio = score) %>% 
     gt(id = "third") %>%
@@ -800,13 +817,13 @@ p1 <- attack_rate %>%
     ggcourt(labels = "") +
     scale_fill_gradient2(low = "white",
                          high = "black",
-                         name = "Attack rate") +
+                         name = "Scala Intensità") +
      labs(title = "Attacchi",
          subtitle = "Zona di partenza") +
     annotate(geom = "text", x = 2, y = 0, label = ifelse(teams(x)[1] == noi, "Noi", "Loro")) +
     annotate(geom = "text", x = 2, y = 7, label = ifelse(teams(x)[2] == noi, "Noi", "Loro")) +
     theme(plot.title = element_text(hjust = .5),
-          plot.subtitle = element_text(hjust = .5))
+          plot.subtitle = element_text(hjust = .5)) 
 
 ## calculate attack frequency by zone, per team
 attack_rate <- plays(x) %>% 
