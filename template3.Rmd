@@ -90,7 +90,7 @@ meta1 %>%
     gt(id = "two") %>%
     tab_options(#table.width = px(150),
                 column_labels.hidden = TRUE) %>% 
-    tab_options(table.width = px(200)) %>% 
+    tab_options(table.width = px(150)) %>% 
     opt_css(
     css = "
     #two .gt_header {
@@ -146,18 +146,20 @@ x$meta$result %>%
                                    b = sum(as.numeric(b), na.rm = TRUE)) %>% 
                          unite("score", a:b, sep = "-") %>% 
                          pull(score),
-                     Azione = round(mean(timeAP$Azione), 1),
-                     Pausa = round(mean(timeAP$Pausa), 1))) %>% 
+                     Azione = mean(timeAP$Azione),
+                     Pausa = mean(timeAP$Pausa))) %>% 
     mutate(across(starts_with("score_"), ~replace_na(.x, "-"))) %>% 
     mutate(Set = as.character(Set)) %>% 
     replace_na(list(Set = "Totale"))%>% 
     unite("Parziali", score_intermediate1:score_intermediate3, sep = " / ") %>% 
     select(Set, "Durata (min)" = duration, Parziali, Punteggio = score,
            "Azione (sec)" = Azione, "Pausa (sec)" = Pausa) %>% 
+    mutate(`Pausa (sec)` = round(`Pausa (sec)`, 1),
+           `Azione (sec)` = round(`Azione (sec)`, 1)) %>% 
     gt(id = "third") %>%
     cols_align(
     align = "center") %>% 
-    tab_options(table.width = px(400)) %>% 
+    tab_options(table.width = px(350)) %>% 
     opt_css(
     css = "
     #third .gt_col_heading {
