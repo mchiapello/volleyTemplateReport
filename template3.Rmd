@@ -21,7 +21,7 @@ knitr::opts_chunk$set(echo = FALSE,
 
 source("utils.R")
 
-x <- dv_read("example3.dvw")
+x <- dv_read("example6.dvw")
 x$plays <- x$plays %>% 
     bind_rows(x$plays %>% 
                   filter(set_number == 1, skill == "Freeball", team == "GKS Katowice") %>%
@@ -115,10 +115,25 @@ S3
 ================================================================================
 
 ```{r meta3}
+timeAP <- plays(x) %>%
+  dplyr::filter(!is.na(skill) & !skill %in% c("Timeout", "Technical timeout") & !is.na(video_time)) %>%
+  group_by(set_number, point_id) %>%
+    mutate(start_rally_time=min(video_time),
+         stop_rally_time=max(video_time)) %>% 
+    select(set_number, point_id, start_rally_time, stop_rally_time) %>% 
+    distinct() %>% 
+    ungroup %>% 
+    mutate(length_rally = stop_rally_time - start_rally_time,
+           length_break =  lead(start_rally_time) - stop_rally_time) %>% 
+    group_by(set_number) %>%
+  dplyr::summarize(avg_rally_time = mean(length_rally, na.rm = TRUE),
+                   avg_break_time = mean(length_break, na.rm = TRUE)) %>% 
+    rename(Set = set_number, Azione = avg_rally_time, Pausa = avg_break_time)
 
 x$meta$result %>%
     mutate(Set = row_number()) %>%
     select(Set, duration, score_intermediate1:score_intermediate3, score) %>% 
+    left_join(timeAP) %>% 
     bind_rows(tibble(Set = NA,
                      duration = sum(x$meta$result$duration),
                      score_intermediate1 = NA,
@@ -130,16 +145,19 @@ x$meta$result %>%
                          summarise(a = sum(as.numeric(a), na.rm = TRUE),
                                    b = sum(as.numeric(b), na.rm = TRUE)) %>% 
                          unite("score", a:b, sep = "-") %>% 
-                         pull(score))) %>% 
+                         pull(score),
+                     Azione = round(mean(timeAP$Azione), 1),
+                     Pausa = round(mean(timeAP$Pausa), 1))) %>% 
     mutate(across(starts_with("score_"), ~replace_na(.x, "-"))) %>% 
     mutate(Set = as.character(Set)) %>% 
     replace_na(list(Set = "Totale"))%>% 
     unite("Parziali", score_intermediate1:score_intermediate3, sep = " / ") %>% 
-    select(Set, Durata = duration, Parziali, Punteggio = score) %>% 
+    select(Set, "Durata (min)" = duration, Parziali, Punteggio = score,
+           "Azione (sec)" = Azione, "Pausa (sec)" = Pausa) %>% 
     gt(id = "third") %>%
     cols_align(
     align = "center") %>% 
-    tab_options(table.width = px(200)) %>% 
+    tab_options(table.width = px(400)) %>% 
     opt_css(
     css = "
     #third .gt_col_heading {
@@ -859,7 +877,7 @@ p2 <-  attack_rate %>%
     ggcourt(labels = "") +
     scale_fill_gradient2(low = "white",
                          high = "black",
-                         name = "Attack rate") +
+                         name = "Scala Intensità") +
      labs(title = "Attacchi",
          subtitle = "Zona di arrivo") +
     annotate(geom = "text", x = 2, y = 0, label = ifelse(teams(x)[1] == noi, "Noi", "Loro")) +
@@ -901,7 +919,7 @@ p3 <-  serve_rate %>%
     ggcourt(labels = "") +
     scale_fill_gradient2(low = "white",
                          high = "black",
-                         name = "Attack rate") +
+                         name = "Scala Intensità") +
     labs(title = "Battute",
          subtitle = "Zona di arrivo") +
     annotate(geom = "text", x = 2, y = 0, label = ifelse(teams(x)[1] == noi, "Noi", "Loro")) +
@@ -912,5 +930,6 @@ p3 <-  serve_rate %>%
 library(patchwork)
 p1 + p2 + p3 + 
     plot_layout(guides = 'collect')
+
 ```
 
